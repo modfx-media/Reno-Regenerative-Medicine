@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Learn how to spot hormone imbalance versus normal aging and when to consider hormone therapy in Reno, NV for better energy, mood, and health.",
     url: "https://www.renoregen.com/signs-of-hormone-imbalance-vs-normal-aging-in-reno/",
     type: "article",
-    publishedTime: "2026-06-08T17:00:00+00:00",
+    publishedTime: "2026-06-12T17:00:00+00:00",
     images: [post.image],
   },
 };

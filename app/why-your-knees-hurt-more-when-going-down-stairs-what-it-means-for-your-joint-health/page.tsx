@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Discover why your knees hurt when going down stairs and how knee decompression therapy can relieve pressure and restore joint function.",
     url: "https://www.renoregen.com/why-your-knees-hurt-more-when-going-down-stairs-what-it-means-for-your-joint-health/",
     type: "article",
-    publishedTime: "2026-03-04T16:13:23+00:00",
+    publishedTime: "2026-04-10T16:13:23+00:00",
     images: [post.image],
   },
 };

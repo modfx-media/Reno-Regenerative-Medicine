@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Stay active all summer with expert back pain treatment in Reno for Nevada athletes, featuring non-surgical options to reduce pain and improve mobility.",
     url: "https://www.renoregen.com/summer-sports-back-pain-relief-tips-for-nevada-athletes/",
     type: "article",
-    publishedTime: "2026-06-15T17:00:00+00:00",
+    publishedTime: "2026-06-19T17:00:00+00:00",
     images: [post.image],
   },
 };

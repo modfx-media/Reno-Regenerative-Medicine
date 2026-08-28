@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Stay informed with our blog on integrative and regenerative medicine in Reno, NV. Read our new post titled \"After the Fall: How Physical Therapy in Reno Can Get You Back on Your Feet Safely\".",
     url: "https://www.renoregen.com/after-the-fall-how-physical-therapy-in-reno-can-get-you-back-on-your-feet-safely/",
     type: "article",
-    publishedTime: "2025-12-09T22:23:08+00:00",
+    publishedTime: "2026-02-20T22:23:08+00:00",
     images: [post.image],
   },
 };

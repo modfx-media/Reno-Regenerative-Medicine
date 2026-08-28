@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Explore integrative medicine in Reno with natural, non-surgical care like chiropractic, injections, IV therapy, and hormone support to relieve pain.",
     url: "https://www.renoregen.com/integrative-medicine-solutions-for-pain-relief-in-reno/",
     type: "article",
-    publishedTime: "2026-07-01T17:00:00+00:00",
+    publishedTime: "2026-07-10T17:00:00+00:00",
     images: [post.image],
   },
 };

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Stay active in the Sierra with a trusted chiropractor in Reno, NV, helping reduce pain, improve mobility, and support recovery for weekend adventures",
     url: "https://www.renoregen.com/chiropractic-care-active-weekends-mountain-adventures/",
     type: "article",
-    publishedTime: "2026-05-10T17:00:00+00:00",
+    publishedTime: "2026-05-29T17:00:00+00:00",
     images: [post.image],
   },
 };

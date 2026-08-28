@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Discover hidden causes of shoulder pain in active adults and when to see a Reno shoulder pain doctor for non-surgical, integrative care.",
     url: "https://www.renoregen.com/common-shoulder-pain-triggers-for-active-adults-in-reno/",
     type: "article",
-    publishedTime: "2026-07-08T17:00:00+00:00",
+    publishedTime: "2026-07-17T17:00:00+00:00",
     images: [post.image],
   },
 };

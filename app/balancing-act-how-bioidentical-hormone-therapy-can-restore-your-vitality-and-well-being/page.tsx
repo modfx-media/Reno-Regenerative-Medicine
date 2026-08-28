@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Balancing Act: How Bioidentical Hormone Therapy in Reno Can Restore Your Vitality and Well-being - Do you ever feel like your body is working against you? You wake up exhausted, even after a full night of sleep, or find yourself snapping at loved ones Discover how bioidentical hormone therapy in Reno can restore balance, relieve symptoms, and improve your overall wellness.",
     url: "https://www.renoregen.com/balancing-act-how-bioidentical-hormone-therapy-can-restore-your-vitality-and-well-being/",
     type: "article",
-    publishedTime: "2025-11-18T20:56:58+00:00",
+    publishedTime: "2026-01-23T20:56:58+00:00",
     images: [post.image],
   },
 };

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Discover why your joints feel stiff every morning and how regenerative medicine and joint injections in Reno can restore mobility.",
     url: "https://www.renoregen.com/why-your-joints-feel-stiff-every-morning-what-your-body-is-trying-to-tell-you/",
     type: "article",
-    publishedTime: "2026-03-04T15:56:52+00:00",
+    publishedTime: "2026-04-03T15:56:52+00:00",
     images: [post.image],
   },
 };

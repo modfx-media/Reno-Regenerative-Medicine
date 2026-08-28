@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Compare treatment options for chronic back pain and see who benefits most from regenerative medicine in Reno, plus spinal decompression and integrative care.",
     url: "https://www.renoregen.com/regenerative-medicine-or-decompression-for-back-pain/",
     type: "article",
-    publishedTime: "2026-08-10T17:00:00+00:00",
+    publishedTime: "2026-08-21T17:00:00+00:00",
     images: [post.image],
   },
 };

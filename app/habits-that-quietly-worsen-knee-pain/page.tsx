@@ -15,7 +15,7 @@ export const metadata: Metadata = {
       "Learn which everyday routines can intensify knee pain and when to see a knee pain doctor in Reno for integrative, non-surgical relief options.",
     url: "https://www.renoregen.com/habits-that-quietly-worsen-knee-pain/",
     type: "article",
-    publishedTime: "2026-05-03T17:00:00+00:00",
+    publishedTime: "2026-05-22T17:00:00+00:00",
     images: [post.image],
   },
 };

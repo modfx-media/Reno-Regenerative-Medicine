@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "From Stiff to Strong: How Physical Therapy in Reno Can Restore Your Mobility After Years of Joint Pain - If you’ve been living with stiffness or joint pain for months—or even years—you may have started to believe that this is simply the way your body is now. Learn how physical therapy in Reno relieves stiffness and restores joint mobility for long-term comfort and motion.",
     url: "https://www.renoregen.com/from-stiff-to-strong-how-physical-therapy-in-reno-can-restore-your-mobility-after-years-of-joint-pain/",
     type: "article",
-    publishedTime: "2025-11-18T21:15:56+00:00",
+    publishedTime: "2026-02-06T21:15:56+00:00",
     images: [post.image],
   },
 };

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Stay informed with our blog on integrative and regenerative medicine in Reno, NV. Read our new post titled \"Get Rid of Mid Back Stiffness After Whiplash Without Surgery\".",
     url: "https://www.renoregen.com/get-rid-of-mid-back-stiffness-after-whiplash-without-surgery/",
     type: "article",
-    publishedTime: "2025-08-14T20:56:25+00:00",
+    publishedTime: "2026-01-02T20:56:25+00:00",
     images: [post.image],
   },
 };

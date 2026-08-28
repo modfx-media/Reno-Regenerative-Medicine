@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Learn how to manage symptoms and know when to seek whiplash treatment in Reno with integrative pain care that helps you avoid surgery and meds.",
     url: "https://www.renoregen.com/life-after-whiplash-when-seek-care/",
     type: "article",
-    publishedTime: "2026-04-19T17:00:00+00:00",
+    publishedTime: "2026-05-08T17:00:00+00:00",
     images: [post.image],
   },
 };

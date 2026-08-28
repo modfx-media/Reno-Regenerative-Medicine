@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Stay informed with our blog on integrative and regenerative medicine in Reno, NV. Read our new post titled \"Do You Suffer from These Symptoms of Arthritis?\".",
     url: "https://www.renoregen.com/do-you-suffer-from-these-symptoms-of-arthritis/",
     type: "article",
-    publishedTime: "2021-07-07T18:56:48+00:00",
+    publishedTime: "2025-12-05T18:56:48+00:00",
     images: [post.image],
   },
 };

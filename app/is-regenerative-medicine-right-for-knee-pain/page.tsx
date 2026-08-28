@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Is regenerative medicine right for your knee pain? Explore non-surgical options in Reno, from joint injections to integrative care, to improve mobility.",
     url: "https://www.renoregen.com/is-regenerative-medicine-right-for-knee-pain/",
     type: "article",
-    publishedTime: "2026-04-05T17:00:00+00:00",
+    publishedTime: "2026-04-24T17:00:00+00:00",
     images: [post.image],
   },
 };

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Explore proven ways to ease pain on the go, from stretching to clinical care, plus where to find sciatica treatment in Reno for fast relief",
     url: "https://www.renoregen.com/backpackers-guide-sciatica-treatment-options/",
     type: "article",
-    publishedTime: "2026-04-26T17:00:00+00:00",
+    publishedTime: "2026-05-15T17:00:00+00:00",
     images: [post.image],
   },
 };

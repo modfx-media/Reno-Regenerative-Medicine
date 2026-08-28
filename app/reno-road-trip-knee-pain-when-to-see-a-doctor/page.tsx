@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Road trip knee pain can flare in summer. Learn when to visit a knee pain doctor in Reno and explore integrative options to reduce pain and avoid surgery.",
     url: "https://www.renoregen.com/reno-road-trip-knee-pain-when-to-see-a-doctor/",
     type: "article",
-    publishedTime: "2026-06-22T17:00:00+00:00",
+    publishedTime: "2026-06-26T17:00:00+00:00",
     images: [post.image],
   },
 };

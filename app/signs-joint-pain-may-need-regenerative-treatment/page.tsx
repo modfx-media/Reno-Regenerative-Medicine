@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Learn everyday warning signs your aches may need regenerative medicine in Reno, plus non surgical options to relieve pain and restore mobility.",
     url: "https://www.renoregen.com/signs-joint-pain-may-need-regenerative-treatment/",
     type: "article",
-    publishedTime: "2026-07-20T17:00:00+00:00",
+    publishedTime: "2026-07-31T17:00:00+00:00",
     images: [post.image],
   },
 };
