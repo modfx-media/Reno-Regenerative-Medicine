@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Stay informed with our blog on integrative and regenerative medicine in Reno, NV. Read our new post titled \"Unlock Your Best Self: How Regenerative Medicine Boosts Hormone Health\".",
     url: "https://www.renoregen.com/unlock-your-best-self-how-regenerative-medicine-boosts-hormone-health/",
     type: "article",
-    publishedTime: "2025-07-13T00:01:31+00:00",
+    publishedTime: "2025-07-06T00:01:31+00:00",
     images: [post.image],
   },
 };

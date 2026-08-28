@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Discover regenerative care for chronic pain and explore back pain treatment with integrative options that help you avoid surgery and meds.",
     url: "https://www.renoregen.com/regenerative-medicine-for-chronic-back-pain/",
     type: "article",
-    publishedTime: "2026-04-19T17:00:00+00:00",
+    publishedTime: "2026-04-12T17:00:00+00:00",
     images: [post.image],
   },
 };

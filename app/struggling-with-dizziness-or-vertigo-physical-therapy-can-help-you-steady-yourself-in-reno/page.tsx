@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Stay informed with our blog on integrative and regenerative medicine in Reno, NV. Read our new post titled \"Struggling With Dizziness or Vertigo? Physical Therapy Can Help You Steady Yourself in Reno\".",
     url: "https://www.renoregen.com/struggling-with-dizziness-or-vertigo-physical-therapy-can-help-you-steady-yourself-in-reno/",
     type: "article",
-    publishedTime: "2025-12-16T22:30:21+00:00",
+    publishedTime: "2025-12-09T22:30:21+00:00",
     images: [post.image],
   },
 };

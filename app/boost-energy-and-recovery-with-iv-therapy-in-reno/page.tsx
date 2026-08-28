@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Stay energized all summer with nutritional IV therapy in Reno, supporting hydration, recovery, and wellness for active days and faster bounce backs.",
     url: "https://www.renoregen.com/boost-energy-and-recovery-with-iv-therapy-in-reno/",
     type: "article",
-    publishedTime: "2026-06-08T17:00:00+00:00",
+    publishedTime: "2026-06-01T17:00:00+00:00",
     images: [post.image],
   },
 };

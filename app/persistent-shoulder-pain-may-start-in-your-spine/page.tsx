@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Learn how spine issues can trigger shoulder pain and when to see a shoulder pain doctor in Reno for integrative, non-surgical treatment options.",
     url: "https://www.renoregen.com/persistent-shoulder-pain-may-start-in-your-spine/",
     type: "article",
-    publishedTime: "2026-07-01T17:00:00+00:00",
+    publishedTime: "2026-06-24T17:00:00+00:00",
     images: [post.image],
   },
 };

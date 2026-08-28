@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Learn warning signs that indicate spinal decompression may help relieve nerve pressure, improve mobility, and reduce pain without surgery.",
     url: "https://www.renoregen.com/signs-back-pain-needs-spinal-decompression/",
     type: "article",
-    publishedTime: "2026-04-06T04:08:47+00:00",
+    publishedTime: "2026-03-30T04:08:47+00:00",
     images: [post.image],
   },
 };

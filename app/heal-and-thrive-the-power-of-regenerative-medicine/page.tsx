@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Stay informed with our blog on integrative and regenerative medicine in Reno, NV. Read our new post titled \"Heal and Thrive: The Power of Regenerative Medicine\".",
     url: "https://www.renoregen.com/heal-and-thrive-the-power-of-regenerative-medicine/",
     type: "article",
-    publishedTime: "2025-06-29T21:35:56+00:00",
+    publishedTime: "2025-06-22T21:35:56+00:00",
     images: [post.image],
   },
 };

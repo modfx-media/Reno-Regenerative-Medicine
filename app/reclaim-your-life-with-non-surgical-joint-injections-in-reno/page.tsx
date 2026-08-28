@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Stay informed with our blog on integrative and regenerative medicine in Reno, NV. Read our new post titled \"Reclaim Your Life with Non-Surgical Joint Injections in Reno\".",
     url: "https://www.renoregen.com/reclaim-your-life-with-non-surgical-joint-injections-in-reno/",
     type: "article",
-    publishedTime: "2025-09-28T02:53:08+00:00",
+    publishedTime: "2025-09-21T02:53:08+00:00",
     images: [post.image],
   },
 };

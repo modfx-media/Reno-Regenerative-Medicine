@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Treat Your Sports Injury with Chiropractic Care At Reno Regenerative Medicine, our chiropractors stimulate healing your injury. Call today!",
     url: "https://www.renoregen.com/treat-your-sports-injury-with-chiropractic-care/",
     type: "article",
-    publishedTime: "2021-07-14T18:56:44+00:00",
+    publishedTime: "2021-07-07T18:56:44+00:00",
     images: [post.image],
   },
 };

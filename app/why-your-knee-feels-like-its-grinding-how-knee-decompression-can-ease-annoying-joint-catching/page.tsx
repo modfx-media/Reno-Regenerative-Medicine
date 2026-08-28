@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Stay informed with our blog on integrative and regenerative medicine in Reno, NV. Read our new post titled \"Why Your Knee Feels Like It’s Grinding: How Knee Decompression Can Ease Annoying Joint Catching\".",
     url: "https://www.renoregen.com/why-your-knee-feels-like-its-grinding-how-knee-decompression-can-ease-annoying-joint-catching/",
     type: "article",
-    publishedTime: "2026-01-30T05:39:17+00:00",
+    publishedTime: "2026-01-23T05:39:17+00:00",
     images: [post.image],
   },
 };

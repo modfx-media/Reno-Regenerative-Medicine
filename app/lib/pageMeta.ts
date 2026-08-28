@@ -563,6 +563,12 @@ const POST_SLUGS: { slug: string; title: string; description: string }[] = [
     description:
       "Compare treatment options for chronic back pain and see who benefits most from regenerative medicine in Reno, plus spinal decompression and integrative care.",
   },
+  {
+    slug: "/your-first-90-days-of-integrative-care-in-reno/",
+    title: "Your First 90 Days of Integrative Care in Reno",
+    description:
+      "Explore what to expect from integrative medicine in Reno during your first 90 days, from evaluation to personalized therapies for pain relief and mobility.",
+  },
 ];
 
 export const POSTS: PageMeta[] = POST_SLUGS.map((p) => ({

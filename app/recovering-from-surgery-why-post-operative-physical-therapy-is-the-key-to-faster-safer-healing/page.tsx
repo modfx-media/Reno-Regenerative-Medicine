@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Discover how post-operative physical therapy in Reno speeds recovery, restores strength, and improves long-term results after surgery.",
     url: "https://www.renoregen.com/recovering-from-surgery-why-post-operative-physical-therapy-is-the-key-to-faster-safer-healing/",
     type: "article",
-    publishedTime: "2025-11-25T21:26:10+00:00",
+    publishedTime: "2025-11-18T21:26:10+00:00",
     images: [post.image],
   },
 };

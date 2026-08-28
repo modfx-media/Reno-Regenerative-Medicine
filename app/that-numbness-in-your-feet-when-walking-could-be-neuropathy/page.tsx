@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Stay informed with our blog on integrative and regenerative medicine in Reno, NV. Read our new post titled \"That Numbness in your Feet when Walking Could Be Neuropathy\".",
     url: "https://www.renoregen.com/that-numbness-in-your-feet-when-walking-could-be-neuropathy/",
     type: "article",
-    publishedTime: "2025-08-21T20:45:59+00:00",
+    publishedTime: "2025-08-14T20:45:59+00:00",
     images: [post.image],
   },
 };

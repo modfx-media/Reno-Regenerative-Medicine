@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Why You’re Still Exhausted After 8 Hours of Sleep: The Hidden Hormone Imbalance Most People Miss - Discover how bioidentical hormone therapy in Reno can correct hormone imbalance and restore energy, focus, and vitality. Discover how bioidentical hormone therapy in Reno can correct hormone imbalance and restore energy, focus, and vitality.",
     url: "https://www.renoregen.com/why-youre-still-exhausted-after-8-hours-of-sleep-the-hidden-hormone-imbalance-most-people-miss/",
     type: "article",
-    publishedTime: "2026-02-25T04:50:09+00:00",
+    publishedTime: "2026-02-18T04:50:09+00:00",
     images: [post.image],
   },
 };

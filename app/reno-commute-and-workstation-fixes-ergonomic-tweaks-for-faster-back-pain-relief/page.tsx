@@ -20,7 +20,7 @@ export const metadata: Metadata = {
       "Learn how small commute and workstation changes can boost back pain treatment in Reno, easing strain and supporting quicker recovery at work and home.",
     url: "https://www.renoregen.com/reno-commute-and-workstation-fixes-ergonomic-tweaks-for-faster-back-pain-relief/",
     type: "article",
-    publishedTime: "2026-08-10T17:00:00+00:00",
+    publishedTime: "2026-08-03T17:00:00+00:00",
     images: [post.image],
   },
 };

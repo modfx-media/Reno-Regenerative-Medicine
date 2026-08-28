@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Discover how hormone therapy in Reno, NV may reduce joint pain, improve mobility, and support healing with integrative care for lasting relief.",
     url: "https://www.renoregen.com/hormone-therapy-options-for-joint-pain-in-reno-nv/",
     type: "article",
-    publishedTime: "2026-08-03T17:00:00+00:00",
+    publishedTime: "2026-07-27T17:00:00+00:00",
     images: [post.image],
   },
 };
