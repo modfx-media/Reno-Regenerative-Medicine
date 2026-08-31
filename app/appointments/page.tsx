@@ -35,9 +35,10 @@ export default function Page() {
             { label: "Appointments" },
           ]}
           size="md"
+          showCta={false}
         />
         <AppointmentsBody />
-        <CTASection />
+        <CTASection showPrimary={false} />
       </main>
       <Footer />
     </>

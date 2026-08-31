@@ -16,6 +16,8 @@ export type CTASectionProps = {
   phone?: string;
   /** Override the tel: target (digits, no spaces). Defaults to +17756839026. */
   phoneHref?: string;
+  /** Hide the primary CTA button (e.g. on the appointments page itself). */
+  showPrimary?: boolean;
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -27,6 +29,7 @@ export default function CTASection({
   primaryLabel = "Request Appointment",
   phone = "(775) 683-9026",
   phoneHref = "+17756839026",
+  showPrimary = true,
 }: CTASectionProps) {
   return (
     <section
@@ -102,6 +105,7 @@ export default function CTASection({
           transition={{ duration: 0.6, ease, delay: 0.26 }}
           className="mt-9 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
         >
+          {showPrimary && (
           <ScrollLink
             href={primaryHref}
             className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-[#4a7c59] to-[#3d7a52] hover:from-[#3d7a52] hover:to-[#2e5e3f] px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] text-white shadow-[0_18px_40px_-18px_rgba(74,124,89,0.85)] transition-colors"
@@ -123,6 +127,7 @@ export default function CTASection({
               />
             </svg>
           </ScrollLink>
+          )}
 
           <a
             href={`tel:${phoneHref}`}

@@ -26,6 +26,8 @@ export type PageHeroProps = {
   ctaHref?: string;
   /** Override CTA label. */
   ctaLabel?: string;
+  /** Hide the CTA button (e.g. on the appointments page itself). */
+  showCta?: boolean;
   /** Vertical density. */
   size?: "sm" | "md" | "lg";
 };
@@ -47,6 +49,7 @@ export default function PageHero({
   breadcrumbs,
   ctaHref = "/appointments",
   ctaLabel = "Request Appointment",
+  showCta = true,
   size = "md",
 }: PageHeroProps) {
   const breadcrumbJsonLd =
@@ -176,6 +179,7 @@ export default function PageHero({
         )}
 
         {/* CTA */}
+        {showCta && (
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -204,6 +208,7 @@ export default function PageHero({
             </svg>
           </Link>
         </motion.div>
+        )}
       </div>
     </section>
   );
