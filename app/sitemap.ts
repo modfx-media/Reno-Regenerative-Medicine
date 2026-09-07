@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
 import { ALL_PAGES } from "./lib/pageMeta";
 import { getAllSlugs } from "./lib/pseo/combinations";
+import { getRankedOnlyBlogSlugs } from "@/lib/ranked/posts";
 
 const SITE = "https://www.renoregen.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const corePages: MetadataRoute.Sitemap = ALL_PAGES.map((p) => ({
@@ -22,5 +23,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...corePages, ...pseoPages];
+  let rankedPages: MetadataRoute.Sitemap = [];
+  try {
+    const slugs = await getRankedOnlyBlogSlugs();
+    rankedPages = slugs.map((slug) => ({
+      url: `${SITE}/blog/${slug}/`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    }));
+  } catch (err) {
+    console.error("[ranked] sitemap slugs failed", err);
+  }
+
+  return [...corePages, ...pseoPages, ...rankedPages];
 }

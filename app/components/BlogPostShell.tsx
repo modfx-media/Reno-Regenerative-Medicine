@@ -24,6 +24,8 @@ export type BlogPostShellProps = {
   readTime?: string;
   /** Optional short summary shown above the article body. */
   summary?: string;
+  /** Override related cards (Ranked posts pass local related articles). */
+  relatedPosts?: Post[];
   /** The article body — pass plain JSX (h2, h3, p, ul, etc.). */
   children: ReactNode;
 };
@@ -193,8 +195,8 @@ function ShareRail({ post }: { post: Post }) {
 
   const getUrl = useCallback(() => {
     if (typeof window !== "undefined") return window.location.href;
-    return `https://renoregen.com/${post.slug}/`;
-  }, [post.slug]);
+    return `https://www.renoregen.com${post.href ?? `/${post.slug}/`}`;
+  }, [post.href, post.slug]);
 
   const openPopup = useCallback((url: string) => {
     if (typeof window === "undefined") return;
@@ -305,8 +307,8 @@ function ShareIconButton({
 /* ================================================================== */
 /*  Related posts                                                     */
 /* ================================================================== */
-function RelatedPosts({ post }: { post: Post }) {
-  const related = getRelatedPosts(post.slug, 3);
+function RelatedPosts({ post, relatedPosts }: { post: Post; relatedPosts?: Post[] }) {
+  const related = relatedPosts ?? getRelatedPosts(post.slug, 3);
   if (related.length === 0) return null;
 
   return (
@@ -346,7 +348,7 @@ function RelatedPosts({ post }: { post: Post }) {
               transition={{ duration: 0.55, ease, delay: (i % 3) * 0.05 }}
               className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white transition-all hover:-translate-y-1 hover:shadow-[0_28px_56px_-28px_rgba(15,26,20,0.25)]"
             >
-              <Link href={`/${p.slug}/`} className="block">
+              <Link href={p.href ?? `/${p.slug}/`} className="block">
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0a120d]/5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -362,7 +364,7 @@ function RelatedPosts({ post }: { post: Post }) {
                   {p.date}
                 </p>
                 <h3 className="font-sans text-[19px] font-semibold leading-[1.35] tracking-[-0.01em] text-[#0a120d] line-clamp-3">
-                  <Link href={`/${p.slug}/`} className="transition-colors hover:text-[#3d7a52]">
+                  <Link href={p.href ?? `/${p.slug}/`} className="transition-colors hover:text-[#3d7a52]">
                     {p.title}
                   </Link>
                 </h3>
@@ -431,7 +433,7 @@ function PostCTA() {
 }
 
 /* ================================================================== */
-export default function BlogPostShell({ post, readTime, summary, children }: BlogPostShellProps) {
+export default function BlogPostShell({ post, readTime, summary, relatedPosts, children }: BlogPostShellProps) {
   return (
     <>
       <Header />
@@ -440,7 +442,7 @@ export default function BlogPostShell({ post, readTime, summary, children }: Blo
         <FeaturedImage post={post} />
         <BodySection post={post} summary={summary}>{children}</BodySection>
         <PostCTA />
-        <RelatedPosts post={post} />
+        <RelatedPosts post={post} relatedPosts={relatedPosts} />
       </main>
       <Footer />
     </>

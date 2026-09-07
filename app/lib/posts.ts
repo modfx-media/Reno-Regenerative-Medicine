@@ -10,6 +10,8 @@ export type Post = {
   image: string;
   excerpt: string;
   category: string;
+  /** Compiled posts live at /{slug}/. Ranked posts live at /blog/{slug}/. */
+  href?: string;
 };
 
 export const POSTS: readonly Post[] = [

@@ -2,6 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   trailingSlash: true,
+  outputFileTracingExcludes: {
+    '*': [
+      './public/images/**',
+      './public/**/*.mp4',
+      './public/**/*.webm',
+    ],
+  },
   async redirects() {
     return [
       // --- Patient reviews legacy URLs ---

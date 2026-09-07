@@ -4,7 +4,10 @@ import Footer from "../components/Footer";
 import PageHero from "../components/PageHero";
 import CTASection from "../components/CTASection";
 import BlogIndexBody from "./BlogIndexBody";
-import { POSTS } from "../lib/posts";
+import { getPublishedBlogPosts } from "@/lib/ranked/posts";
+import { toIndexPost } from "@/lib/ranked/display";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Read Our Blog | Wellness and Pain Management Insights",
@@ -20,7 +23,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
+export default async function Page() {
+  const published = await getPublishedBlogPosts();
+  const posts = [...published]
+    .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
+    .map(toIndexPost);
+
   return (
     <>
       <Header />
@@ -36,7 +44,7 @@ export default function Page() {
           ]}
           size="md"
         />
-        <BlogIndexBody posts={[...POSTS]} />
+        <BlogIndexBody posts={posts} />
         <CTASection />
       </main>
       <Footer />

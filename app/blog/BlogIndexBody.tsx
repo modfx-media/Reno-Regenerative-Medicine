@@ -57,7 +57,7 @@ function FeaturedSection({ post }: { post: Post }) {
           transition={{ duration: 0.7, ease }}
           className="group relative grid overflow-hidden rounded-3xl bg-white shadow-[0_40px_80px_-50px_rgba(10,18,13,0.4)] ring-1 ring-[#e8e4d9] md:grid-cols-12"
         >
-          <Link href={`/${post.slug}/`} className="relative md:col-span-7">
+          <Link href={post.href ?? `/${post.slug}/`} className="relative md:col-span-7">
             <div className="relative aspect-[16/10] w-full overflow-hidden md:aspect-auto md:h-full">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -81,7 +81,7 @@ function FeaturedSection({ post }: { post: Post }) {
             </div>
 
             <h3 className="font-serif-display text-[28px] sm:text-[32px] leading-[1.12] tracking-tight text-[#0a120d]">
-              <Link href={`/${post.slug}/`} className="transition-colors hover:text-[#3d7a52]">
+              <Link href={post.href ?? `/${post.slug}/`} className="transition-colors hover:text-[#3d7a52]">
                 {post.title}
               </Link>
             </h3>
@@ -90,7 +90,7 @@ function FeaturedSection({ post }: { post: Post }) {
 
             <div>
               <Link
-                href={`/${post.slug}/`}
+                href={post.href ?? `/${post.slug}/`}
                 className="inline-flex items-center gap-2 rounded-full bg-[#c6b180] px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#0a120d] transition-colors hover:bg-[#f3d99a]"
               >
                 Read Article &rarr;
@@ -115,7 +115,7 @@ function PostCard({ post, index }: { post: Post; index: number }) {
       transition={{ duration: 0.55, ease, delay: (index % 3) * 0.05 }}
       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#e8e4d9] bg-white transition-all hover:-translate-y-1 hover:shadow-[0_28px_56px_-28px_rgba(15,26,20,0.25)]"
     >
-      <Link href={`/${post.slug}/`} className="block">
+      <Link href={post.href ?? `/${post.slug}/`} className="block">
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0a120d]/5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -135,7 +135,7 @@ function PostCard({ post, index }: { post: Post; index: number }) {
         </div>
 
         <h3 className="font-sans text-[20px] sm:text-[21px] font-semibold leading-[1.35] tracking-[-0.01em] text-[#0a120d] line-clamp-3">
-          <Link href={`/${post.slug}/`} className="transition-colors hover:text-[#3d7a52]">
+          <Link href={post.href ?? `/${post.slug}/`} className="transition-colors hover:text-[#3d7a52]">
             {post.title}
           </Link>
         </h3>
@@ -146,7 +146,7 @@ function PostCard({ post, index }: { post: Post; index: number }) {
 
         <div className="mt-auto pt-2">
           <Link
-            href={`/${post.slug}/`}
+            href={post.href ?? `/${post.slug}/`}
             className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#13231a] underline decoration-[#c6b180] decoration-2 underline-offset-[6px] transition-colors hover:text-[#3d7a52]"
           >
             Read More &rarr;
@@ -224,6 +224,18 @@ function GridSection({ posts }: { posts: Post[] }) {
 
 /* ================================================================== */
 export default function BlogIndexBody({ posts }: { posts: Post[] }) {
+  if (posts.length === 0) {
+    return (
+      <section className="bg-white py-20 md:py-28">
+        <div className="mx-auto w-full max-w-[1280px] px-6 xl:px-8">
+          <p className="text-[16px] leading-[1.75] text-[#1a2332]/75">
+            New articles will appear here as they are published.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   const [featured, ...rest] = posts;
   return (
     <>
