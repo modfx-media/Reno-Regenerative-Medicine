@@ -10,6 +10,15 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const CATEGORY_LABELS: Record<string, string> = {
   all: "All Posts",
   "regenerative-medicine": "Regenerative Medicine",
+  "integrative-medicine": "Integrative Medicine",
+  "chiropractic-care": "Chiropractic Care",
+  "physical-therapy": "Physical Therapy",
+  "hormone-therapy": "Hormone Therapy",
+  "nutritional-ivs": "Nutritional IV Therapy",
+  "joint-injections": "Joint Injections",
+  "trigger-point-injections": "Trigger Point Injections",
+  "spinal-decompression": "Spinal Decompression",
+  "knee-decompression": "Knee Decompression",
   general: "General Wellness",
 };
 
@@ -159,9 +168,10 @@ function PostCard({ post, index }: { post: Post; index: number }) {
 
 function GridSection({ posts }: { posts: Post[] }) {
   const categories = useMemo(() => {
-    const set = new Set<string>(["all"]);
-    posts.forEach((p) => set.add(p.category || "general"));
-    return Array.from(set);
+    const present = new Set<string>();
+    posts.forEach((p) => present.add(p.category || "general"));
+    const ordered = Object.keys(CATEGORY_LABELS).filter((c) => c !== "all" && present.has(c));
+    return ["all", ...ordered];
   }, [posts]);
 
   const [active, setActive] = useState<string>("all");

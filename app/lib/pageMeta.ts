@@ -569,6 +569,36 @@ const POST_SLUGS: { slug: string; title: string; description: string }[] = [
     description:
       "Explore what to expect from integrative medicine in Reno during your first 90 days, from evaluation to personalized therapies for pain relief and mobility.",
   },
+  {
+    slug: "/inside-integrative-medicine-in-reno-a-patients-first-90-days/",
+    title: "Inside Integrative Medicine in Reno: A Patient's First 90 Days",
+    description:
+      "Curious what integrative care actually looks like week to week? Follow a typical new-patient journey through evaluation, treatment, and progress checks over 90 days.",
+  },
+  {
+    slug: "/living-with-arthritis-in-renos-climate-when-to-seek-treatment/",
+    title: "Living with Arthritis in Reno's Climate: When to Seek Treatment",
+    description:
+      "Reno's dry air, altitude, and big temperature swings can make arthritis pain louder. Learn how the local climate affects your joints and when it is time to look into arthritis treatment in Reno.",
+  },
+  {
+    slug: "/why-hormone-therapy-in-reno-nv-matters-for-joint-pain-relief/",
+    title: "Why Hormone Therapy in Reno NV Matters for Joint Pain Relief",
+    description:
+      "Joint pain is not always just wear and tear. See how shifting hormone levels can drive inflammation and slower recovery, and why balanced hormones matter for lasting joint comfort.",
+  },
+  {
+    slug: "/choosing-between-joint-injections-and-spinal-decompression-in-reno/",
+    title: "Choosing Between Joint Injections and Spinal Decompression in Reno",
+    description:
+      "Not sure whether joint injections or spinal decompression fit your pain better? Compare how each nonsurgical option works and who tends to benefit most from each.",
+  },
+  {
+    slug: "/planning-a-summer-hiking-season-with-chronic-knee-pain/",
+    title: "Planning a Summer Hiking Season with Chronic Knee Pain",
+    description:
+      "Chronic knee pain does not have to keep you off Reno's summer trails. Get a simple plan for training, trail selection, and pacing so you can hike with more confidence.",
+  },
 ];
 
 export const POSTS: PageMeta[] = POST_SLUGS.map((p) => ({
