@@ -3,6 +3,9 @@ export const SITE_ORIGIN = (process.env.SITE_ORIGIN || 'https://www.renoregen.co
 /** Ranked calendar for renoregen.com only. Other client UUIDs are refused. */
 export const THIS_SITE_RANKED_PROJECT_ID = 'dd091264-d80b-4c43-b6b6-72f657553b1b'
 
+/** Kill switch: set to false to re-enable automated Ranked blog posting. */
+export const RANKED_AUTO_PUBLISH_ENABLED = false
+
 export const DEFAULT_COVER = '/images/blog/default-cover.jpg'
 export const DEFAULT_COVER_ALT = 'Reno Regenerative Medicine blog article cover'
 

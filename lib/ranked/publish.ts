@@ -1,10 +1,11 @@
 import { listRankedContent } from './client'
-import { THIS_SITE_RANKED_PROJECT_ID } from './config'
+import { RANKED_AUTO_PUBLISH_ENABLED, THIS_SITE_RANKED_PROJECT_ID } from './config'
 import { getRankedCoverImage } from './cover'
 import { isBlogContentType, isRankedPostLive, slugFromTitle } from './html-to-post'
 import { isThisSiteArticle, shouldRefuseForeignCalendar } from './this-site'
 
 export async function generateLiveRankedCovers(projectId: string): Promise<string[]> {
+  if (!RANKED_AUTO_PUBLISH_ENABLED) return []
   if (projectId !== THIS_SITE_RANKED_PROJECT_ID) {
     console.error(`[ranked] refusing covers for other project ${projectId}`)
     return []

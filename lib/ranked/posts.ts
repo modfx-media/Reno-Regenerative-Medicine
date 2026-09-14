@@ -1,5 +1,5 @@
 import { getRankedContentDetail, isRankedConfigured, listRankedContent } from './client'
-import { THIS_SITE_RANKED_PROJECT_ID } from './config'
+import { RANKED_AUTO_PUBLISH_ENABLED, THIS_SITE_RANKED_PROJECT_ID } from './config'
 import { ensureUniqueCoverImages, getRankedCoverImage } from './cover'
 import { fetchGoogleDocHtml } from './google-doc'
 import {
@@ -55,6 +55,7 @@ export async function getLiveRankedBlogPosts(
   projectId?: string,
   opts: { generateCovers?: boolean; generateForSlug?: string } = {},
 ): Promise<BlogPostData[]> {
+  if (!RANKED_AUTO_PUBLISH_ENABLED) return []
   if (!isRankedConfigured() && !projectId) return []
   const id = THIS_SITE_RANKED_PROJECT_ID
   if (!process.env.RANKED_API_KEY || process.env.RANKED_PROJECT_ID !== id) return []
