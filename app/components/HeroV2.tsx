@@ -186,7 +186,7 @@ export default function HeroV2() {
           className="mt-9 flex flex-wrap items-center justify-center gap-3"
         >
           <ScrollLink
-            href="/appointments"
+            href="/contact/"
             className="group inline-flex items-center gap-2 rounded-md bg-[#4a7c59] hover:bg-[#3d7a52] px-6 py-3.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-white shadow-[0_10px_30px_-10px_rgba(74,124,89,0.7)] transition-colors"
           >
             Request Appointment

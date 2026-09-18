@@ -68,7 +68,7 @@ function IntroSplit() {
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
-                href="/appointments/"
+                href="/contact/"
                 className="inline-flex items-center gap-2 rounded-full bg-[#c6b180] px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#0a120d] transition-colors hover:bg-[#f3d99a]"
               >
                 Request an Appointment

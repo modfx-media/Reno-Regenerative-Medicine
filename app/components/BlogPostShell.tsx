@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import Header from "./Header";
 import Footer from "./Footer";
 import { getRelatedPosts, type Post } from "../lib/posts";
+import { BOOKING_URL } from "../lib/constants";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -148,12 +149,14 @@ function BodySection({ post, summary, children }: { post: Post; summary?: string
                 <p className="mt-3 text-[14px] leading-[1.7] text-[#1a2332]/75">
                   Talk to our team about a personalized plan for your pain or recovery goals.
                 </p>
-                <Link
-                  href="/appointments/"
+                <a
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-4 inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#13231a] underline decoration-[#c6b180] decoration-2 underline-offset-[6px] hover:text-[#3d7a52]"
                 >
                   Book an Appointment &rarr;
-                </Link>
+                </a>
               </div>
             </div>
           </aside>
@@ -412,7 +415,7 @@ function PostCTA() {
             <div className="md:col-span-4">
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href="/appointments/"
+                  href="/contact/"
                   className="inline-flex items-center gap-2 rounded-full bg-[#c6b180] px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#0a120d] transition-colors hover:bg-[#f3d99a]"
                 >
                   Request Appointment

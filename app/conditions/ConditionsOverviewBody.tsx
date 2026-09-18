@@ -100,7 +100,7 @@ export default function ConditionsOverviewBody() {
             className="mt-14 flex justify-center"
           >
             <Link
-              href="/appointments/"
+              href="/contact/"
               className="inline-flex items-center gap-2 rounded-full bg-[#c6b180] px-8 py-4 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#0a120d] transition-colors hover:bg-[#f3d99a]"
             >
               Request an Appointment

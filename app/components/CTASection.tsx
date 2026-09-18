@@ -25,7 +25,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export default function CTASection({
   title = "Ready to Start Your Healing Journey?",
   subtitle = "Serving Northern Nevada and surrounding California communities",
-  primaryHref = "/appointments",
+  primaryHref = "/contact/",
   primaryLabel = "Request Appointment",
   phone = "(775) 683-9026",
   phoneHref = "+17756839026",

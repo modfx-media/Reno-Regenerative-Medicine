@@ -28,7 +28,6 @@ const MAIN_SLUGS = [
   "/",
   "/about/",
   "/new-patients/",
-  "/appointments/",
   "/contact/",
   "/reno-office/",
   "/seminars/",

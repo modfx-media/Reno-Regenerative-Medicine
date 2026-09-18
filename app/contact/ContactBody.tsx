@@ -179,10 +179,10 @@ function ContactFormSection() {
             </p>
 
             <div className="mt-8 overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_-8px_rgba(10,18,13,0.12)] ring-1 ring-[#e8e4d9]">
-              <div className="relative" style={{ minHeight: '947px' }}>
+              <div className="relative" style={{ minHeight: '986px' }}>
                 <iframe
                   src="https://api.leadconnectorhq.com/widget/form/flo7dcg5mTX6oZqddV3w"
-                  style={{ width: '100%', height: '100%', border: 'none', borderRadius: '3px', minHeight: '947px' }}
+                  style={{ width: '100%', height: '100%', border: 'none', borderRadius: '3px', minHeight: '986px' }}
                   id="inline-flo7dcg5mTX6oZqddV3w"
                   data-layout={'{"id":"INLINE"}'}
                   data-trigger-type="alwaysShow"
@@ -192,9 +192,11 @@ function ContactFormSection() {
                   data-deactivation-type="neverDeactivate"
                   data-deactivation-value=""
                   data-form-name="Website NP Form"
-                  data-height="947"
+                  data-height="986"
                   data-layout-iframe-id="inline-flo7dcg5mTX6oZqddV3w"
                   data-form-id="flo7dcg5mTX6oZqddV3w"
+                  data-cookie-consent="true"
+                  data-cookie-consent-provider="auto"
                   title="Website NP Form"
                 />
               </div>
@@ -255,12 +257,6 @@ function ContactFormSection() {
                 </div>
 
                 <div className="mt-7 flex flex-wrap gap-3">
-                  <Link
-                    href="/appointments/"
-                    className="inline-flex items-center gap-2 rounded-full bg-[#c6b180] px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#0a120d] transition-colors hover:bg-[#f3d99a]"
-                  >
-                    Request Appointment
-                  </Link>
                   <Link
                     href="/reno-office/"
                     className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.22em] text-white transition-colors hover:bg-white/10"

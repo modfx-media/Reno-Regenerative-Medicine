@@ -13,7 +13,7 @@ const SERVICES = [
 
 const PATIENTS = [
   { label: "New Patients", href: "/new-patients/" },
-  { label: "Appointments", href: "/appointments/" },
+  { label: "Appointments", href: "/contact/" },
   { label: "Patient Reviews", href: "/reviews/" },
   { label: "Video Testimonials", href: "/video-testimonials/" },
   { label: "Seminars", href: "/seminars/" },

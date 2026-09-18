@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { BOOKING_URL } from "../lib/constants";
 
 type Region = {
   label: string;
@@ -398,12 +399,14 @@ export default function WhereIsYourPain() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5, ease, delay: 0.15 }}
         >
-          <Link
-            href="/contact/"
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center rounded-full bg-[#f5efe0] px-7 py-3.5 text-sm font-medium text-[#0f1a14] hover:bg-[#f3d99a] transition-colors"
           >
             Book a Consultation
-          </Link>
+          </a>
           <span className="text-sm text-white/55">
             Free consultation available
           </span>

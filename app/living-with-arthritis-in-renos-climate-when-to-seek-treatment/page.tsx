@@ -77,7 +77,7 @@ export default function Page() {
         At Reno Regenerative Medicine, arthritis treatment in Reno starts with understanding which joints are involved and how the condition is affecting your daily function, not just your pain score. From there, a plan may combine chiropractic care, regenerative joint injections, spinal decompression, or physical therapy, depending on what your evaluation shows.
       </p>
       <p>
-        You do not have to just accept that arthritis is &ldquo;part of getting older&rdquo; here. <Link href="/appointments/">Request an appointment</Link> and let&rsquo;s talk about a plan that fits how you actually want to spend your seasons in Reno.
+        You do not have to just accept that arthritis is &ldquo;part of getting older&rdquo; here. <Link href="/contact/">Request an appointment</Link> and let&rsquo;s talk about a plan that fits how you actually want to spend your seasons in Reno.
       </p>
     </BlogPostShell>
   );

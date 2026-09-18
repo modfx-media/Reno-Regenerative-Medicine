@@ -275,7 +275,7 @@ function ReserveSection() {
                     Call Now
                   </a>
                   <Link
-                    href="/appointments/"
+                    href="/contact/"
                     className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.22em] text-white transition-colors hover:bg-white/10"
                   >
                     Request Appointment

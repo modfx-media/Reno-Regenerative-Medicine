@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // --- Appointments page removed: legacy /appointments/ → /contact/ ---
+      { source: "/appointments", destination: "/contact/", permanent: true },
+      { source: "/appointments/", destination: "/contact/", permanent: true },
+
       // --- Patient reviews legacy URLs ---
       { source: "/patient-reviews", destination: "/reviews/", permanent: true },
       { source: "/patient-reviews/", destination: "/reviews/", permanent: true },

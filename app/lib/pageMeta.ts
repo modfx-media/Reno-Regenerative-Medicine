@@ -114,13 +114,6 @@ export const PAGES: PageMeta[] = [
     priority: 0.7,
   },
   {
-    slug: "/appointments/",
-    title: "Appointments",
-    description:
-      "Find relief at Reno Regenerative. Explore our Appointments page to learn how our Reno pain management clinic can help you. Call now!",
-    priority: 0.8,
-  },
-  {
     slug: "/careers/",
     title: d("Careers"),
     description:

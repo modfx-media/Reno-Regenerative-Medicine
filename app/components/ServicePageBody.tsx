@@ -43,7 +43,7 @@ function Sidebar() {
           Speak with our team about whether this service is right for you. We&rsquo;ll answer your questions before you commit to anything.
         </p>
         <Link
-          href="/appointments"
+          href="/contact/"
           className="mt-5 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-[#4a7c59] to-[#3d7a52] hover:from-[#3d7a52] hover:to-[#2e5e3f] px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] text-white shadow-[0_12px_28px_-14px_rgba(74,124,89,0.85)] transition-colors"
         >
           Request Appointment

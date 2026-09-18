@@ -62,7 +62,7 @@ export default function Page() {
 
             <p className="!mt-10">
               <Link
-                href="/appointments/"
+                href="/contact/"
                 className="inline-flex items-center gap-2 rounded-full bg-[#c6b180] px-7 py-3.5 text-[12px] font-semibold !text-[#0a120d] uppercase tracking-[0.22em] !no-underline transition-colors hover:bg-[#f3d99a]"
               >
                 request an appointment

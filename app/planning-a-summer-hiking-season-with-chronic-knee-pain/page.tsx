@@ -62,7 +62,7 @@ export default function Page() {
         With chronic knee pain, it helps to plan around how your knee feels now, not how it felt years ago. Favor shorter mileage early in the season, moderate and steady elevation gain rather than very steep climbs, smoother packed surfaces over loose rock, and routes with shade and water access as temperatures climb. Starting with out-and-back trails gives you an easy way to turn around the moment something feels off, without committing to a full loop.
       </p>
       <p>
-        If knee pain has been holding your hiking season back, you do not have to figure this out alone. <Link href="/appointments/">Request an appointment</Link> with our team to talk about a plan that keeps you moving through the summer.
+        If knee pain has been holding your hiking season back, you do not have to figure this out alone. <Link href="/contact/">Request an appointment</Link> with our team to talk about a plan that keeps you moving through the summer.
       </p>
     </BlogPostShell>
   );

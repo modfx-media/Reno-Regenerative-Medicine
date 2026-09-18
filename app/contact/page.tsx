@@ -34,9 +34,10 @@ export default function Page() {
             { label: "Contact" },
           ]}
           size="md"
+          showCta={false}
         />
         <ContactBody />
-        <CTASection />
+        <CTASection showPrimary={false} />
       </main>
       <Footer />
     </>

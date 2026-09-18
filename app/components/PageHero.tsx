@@ -22,7 +22,7 @@ export type PageHeroProps = {
   imageAlt?: string;
   /** Breadcrumb trail from Home → current page. */
   breadcrumbs?: Crumb[];
-  /** Override CTA href (defaults to /appointments). */
+  /** Override CTA href (defaults to /contact/). */
   ctaHref?: string;
   /** Override CTA label. */
   ctaLabel?: string;
@@ -47,7 +47,7 @@ export default function PageHero({
   image,
   imageAlt = "",
   breadcrumbs,
-  ctaHref = "/appointments",
+  ctaHref = "/contact/",
   ctaLabel = "Request Appointment",
   showCta = true,
   size = "md",

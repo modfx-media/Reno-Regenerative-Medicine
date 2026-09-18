@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { BOOKING_URL } from "../lib/constants";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -100,15 +101,17 @@ function AddressSection() {
             </div>
 
             <div className="mt-9 flex flex-wrap gap-4">
-              <Link
-                href="/appointments/"
+              <a
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-[#c6b180] px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#0a120d] transition-colors hover:bg-[#f3d99a]"
               >
                 Book an Appointment
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden>
                   <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </Link>
+              </a>
               <Link
                 href="/contact/"
                 className="inline-flex items-center gap-2 rounded-full border border-[#0a120d]/15 px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#0a120d] transition-colors hover:bg-white"

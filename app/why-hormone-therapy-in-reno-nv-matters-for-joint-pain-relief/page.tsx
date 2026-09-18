@@ -67,7 +67,7 @@ export default function Page() {
         Legitimate hormone care is based on lab testing, a full health history, and close follow-up &mdash; not guesswork or one-size-fits-all supplements. At Reno Regenerative Medicine, a hormone-focused evaluation for joint pain typically includes a detailed history, a review of your activity level and current medications, and targeted lab work for hormone and inflammation markers. From there, we build an individualized plan that may include bioidentical hormone support alongside regenerative joint injections, chiropractic care, or spinal decompression.
       </p>
       <p>
-        If your joint pain has not fully responded to the basics, it may be worth looking at the bigger picture. <Link href="/appointments/">Request an appointment</Link> to talk about whether hormone therapy belongs in your plan.
+        If your joint pain has not fully responded to the basics, it may be worth looking at the bigger picture. <Link href="/contact/">Request an appointment</Link> to talk about whether hormone therapy belongs in your plan.
       </p>
     </BlogPostShell>
   );

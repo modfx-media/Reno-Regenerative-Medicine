@@ -67,7 +67,7 @@ export default function Page() {
         Some patients benefit from both approaches at once &mdash; joint injections addressing a specific painful joint while spinal decompression works on an underlying disc or nerve issue contributing to referred pain elsewhere. A thorough evaluation, including your history, activity level, and any prior imaging, is what determines whether one option, the other, or a combination makes sense for you.
       </p>
       <p>
-        If chronic pain is limiting how you move through your own life in Reno, <Link href="/appointments/">request an appointment</Link> and let&rsquo;s figure out which nonsurgical path fits your situation.
+        If chronic pain is limiting how you move through your own life in Reno, <Link href="/contact/">request an appointment</Link> and let&rsquo;s figure out which nonsurgical path fits your situation.
       </p>
     </BlogPostShell>
   );

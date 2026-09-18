@@ -74,7 +74,7 @@ export function ExactContent({
 
       {showCta && (
         <Link
-          href="/appointments/"
+          href="/contact/"
           className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#4a7c59] to-[#3d7a52] hover:from-[#3d7a52] hover:to-[#2e5e3f] px-7 py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white shadow-[0_18px_36px_-18px_rgba(74,124,89,0.85)] transition-colors"
         >
           Request an Appointment

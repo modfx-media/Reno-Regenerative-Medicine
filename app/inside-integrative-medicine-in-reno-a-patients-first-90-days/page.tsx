@@ -74,7 +74,7 @@ export default function Page() {
         By the final stretch of the first 90 days, most patients can point to concrete changes: sleeping through the night more consistently, walking farther without pain, or getting through a workday without needing to sit down and recover. This is also when we start talking about what maintenance looks like &mdash; how often you might need care going forward, and which parts of your home routine are helping the most.
       </p>
       <p>
-        If you have been putting off getting real answers about ongoing pain, the first 90 days are less intimidating than they sound. <Link href="/appointments/">Request an appointment</Link> and let&rsquo;s map out what your own plan could look like.
+        If you have been putting off getting real answers about ongoing pain, the first 90 days are less intimidating than they sound. <Link href="/contact/">Request an appointment</Link> and let&rsquo;s map out what your own plan could look like.
       </p>
     </BlogPostShell>
   );

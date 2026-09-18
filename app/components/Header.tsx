@@ -4,6 +4,7 @@ import ScrollLink from "./ScrollLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { BOOKING_URL } from "../lib/constants";
 
 /* -------------------------------------------------------------------------- */
 /*  Nav data                                                                  */
@@ -439,7 +440,7 @@ function MobileMenu({
             {/* Drawer footer / CTAs */}
             <div className="px-5 py-5 border-t border-white/10 space-y-3 bg-black/20">
               <ScrollLink
-                href="/appointments"
+                href="/contact"
                 onClick={onClose}
                 className="block w-full text-center rounded-full bg-[#c6b180] hover:bg-white px-5 py-3.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-[#1a2332] transition-colors"
               >
@@ -544,8 +545,10 @@ export default function Header() {
 
           {/* Right: CTA only */}
           <div className="flex shrink-0 items-center">
-            <ScrollLink
-              href="/appointments"
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap min-w-fit rounded-full bg-gradient-to-r from-[#4a7c59] to-[#3d7a52] hover:from-[#3d7a52] hover:to-[#2e5e3f] px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_10px_24px_-12px_rgba(74,124,89,0.7)] transition-colors"
             >
               <span className="hidden xl:inline">Book Appointment</span>
@@ -553,7 +556,7 @@ export default function Header() {
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden>
                 <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </ScrollLink>
+            </a>
           </div>
         </div>
 
@@ -571,12 +574,14 @@ export default function Header() {
             >
               <PhoneIcon />
             </a>
-            <ScrollLink
-              href="/appointments"
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center whitespace-nowrap rounded-full bg-gradient-to-r from-[#4a7c59] to-[#3d7a52] hover:from-[#3d7a52] hover:to-[#2e5e3f] px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition-colors"
             >
               Book
-            </ScrollLink>
+            </a>
             <button
               type="button"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}

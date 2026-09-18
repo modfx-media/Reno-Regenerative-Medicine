@@ -292,7 +292,7 @@ export default function PseoBody({
                 </p>
                 <div className="mt-5 space-y-2">
                   <Link
-                    href="/appointments/"
+                    href="/contact/"
                     className="block w-full text-center rounded-full bg-[#3d7a52] px-5 py-3 text-white font-medium hover:bg-[#1f3a28] transition-colors"
                   >
                     Request Appointment

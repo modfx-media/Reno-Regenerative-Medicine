@@ -38,7 +38,7 @@ export default function ServiceSidebar() {
         </p>
 
         <Link
-          href="/appointments/"
+          href="/contact/"
           className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#c6b180] px-5 py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#0a120d] transition-colors hover:bg-[#f3d99a]"
         >
           Request Appointment

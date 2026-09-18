@@ -191,7 +191,7 @@ function ClosingCTA() {
             <div className="md:col-span-4">
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href="/appointments/"
+                  href="/contact/"
                   className="inline-flex items-center gap-2 rounded-full bg-[#c6b180] px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#0a120d] transition-colors hover:bg-[#f3d99a]"
                 >
                   Request Appointment
