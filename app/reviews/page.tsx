@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import PageHero from "../components/PageHero";
 import CTASection from "../components/CTASection";
 import ReviewsBody from "./ReviewsBody";
+import { getDisplayedGoogleReviews } from "@/lib/google-reviews";
 
 export const metadata: Metadata = {
   title: "Patient Reviews and Stories",
@@ -19,7 +20,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
+export default async function Page() {
+  const { reviews, meta } = await getDisplayedGoogleReviews();
+
   return (
     <>
       <Header />
@@ -35,7 +38,7 @@ export default function Page() {
           ]}
           size="md"
         />
-        <ReviewsBody />
+        <ReviewsBody reviews={reviews} meta={meta} />
         <CTASection />
       </main>
       <Footer />

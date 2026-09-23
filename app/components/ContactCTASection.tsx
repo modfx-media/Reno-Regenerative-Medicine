@@ -65,7 +65,17 @@ function FloatingDot({ x, y, delay = 0 }: { x: string; y: string; delay?: number
 
 /* Section ----------------------------------------------------------------- */
 
-export default function ContactCTASection() {
+type ContactCTASectionProps = {
+  rating?: number;
+  reviewCount?: number;
+  reviewsUrl?: string;
+};
+
+export default function ContactCTASection({
+  rating = 4.7,
+  reviewCount = 202,
+  reviewsUrl = "https://www.google.com/maps/place/?q=place_id:ChIJHQK0SgkVmYARwy42TO_LG-k",
+}: ContactCTASectionProps) {
   return (
     <section
       className="relative isolate overflow-hidden bg-[#0a120d] text-white py-32"
@@ -176,8 +186,13 @@ export default function ContactCTASection() {
 
             <div className="mt-10">
               <div className="text-xs uppercase tracking-[0.3em] text-[#c6b180]">Rating</div>
-              <div className="mt-3 flex items-baseline gap-3">
-                <span className="font-serif-display text-4xl text-white">4.8</span>
+              <a
+                href={reviewsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 flex items-baseline gap-3 hover:opacity-90 transition-opacity"
+              >
+                <span className="font-serif-display text-4xl text-white">{rating.toFixed(1)}</span>
                 <span className="flex text-[#c6b180]">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <motion.svg
@@ -195,8 +210,8 @@ export default function ContactCTASection() {
                     </motion.svg>
                   ))}
                 </span>
-                <span className="text-white/60 text-sm">201 Google Reviews</span>
-              </div>
+                <span className="text-white/60 text-sm">{reviewCount} Google Reviews</span>
+              </a>
             </div>
           </motion.div>
 

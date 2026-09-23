@@ -3,78 +3,29 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { BOOKING_URL } from "../lib/constants";
+import type { GoogleReview, GoogleReviewsMeta } from "@/lib/reviews";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/* ------------------------------------------------------------------ */
-/*  Verbatim header copy from https://renoregen.com/reviews/          */
-/*    EXCELLENT                                                       */
-/*    Based on 115 reviews                                            */
-/* ------------------------------------------------------------------ */
+type Review = { author: string; body: string; when?: string };
 
-/* ------------------------------------------------------------------ */
-/*  Verbatim Google reviews from the live page (in source order)      */
-/*  Each review attribution: "Trustindex verifies that the original   */
-/*  source of the review is Google."                                  */
-/* ------------------------------------------------------------------ */
-type Review = { author: string; body: string };
-
-const REVIEWS: Review[] = [
-  {
-    author: "Nancy Johns",
-    body:
-      "Four months ago I came in after having neuropathy issues on my feet & ankles from previous Achilles Tendon Surgery. I have seen a huge improvement after receiving stem cell therapy. The staff here has been amazing to work with. Overall I am very impressed and happy with the results so far.",
-  },
-  {
-    author: "William Evans",
-    body:
-      "Everyone is very Professional, Courteous and Personable. The procedure seems to be helping my feet feel somewhat normal again. I would not hesitate recommending RRM to anyone with Neuropathy issues..",
-  },
-  {
-    author: "John Thom",
-    body:
-      "Reno regenerative has been great, making me feel welcome at every visit. The staff are very kind and polite. I\u2019m extremely happy with the results I\u2019ve gotten with the shockwave treatment.",
-  },
-  {
-    author: "Lg",
-    body:
-      "What a great staff! I am so glad I found RRM! I have neuropathy from my chemotherapy treatments. The treatments have helped decrease the inflammation in my feet so I am walking better and have more feeling in them as well. Thank you!",
-  },
-  {
-    author: "Daniel Rohrback",
-    body:
-      "I started coming here due to feeling constantly tired and sluggish and after a blood test, they found out I have low testosterone. They started me on treatment immediately and WOW! What a difference it makes. I\u2019m so impressed by how much better I feel. I now tell every guy who tells me they feel tired to get checked for low T-levels. Thank you Kellie, Khara, and Karli so much for helping me. HIGHLY RECOMMEND!",
-  },
-  {
-    author: "Sylvia Martin",
-    body:
-      "After my first visit l did not have the swelling on my right ankle as l usually had every evening\ud83c\udf39",
-  },
-  {
-    author: "Maria Moreno",
-    body:
-      "I wasn\u2019t holding big expectations when I had the initial interview for treatment. However that was the last resource I had after having lumbar and cervical pain for two years.\n\nAll I want to say is that the treatment was explained with pros and cons from the beginning and I decided to take the risk on spending money towards my well being.\n\nI do not regret the investment on me! the treatment has been the best I have taken! lumbar or cervical surgery is not on the future as all pain from herniated disks are not bothering anymore, I feel rejuvenated and energetic as I was on my 30\u2019s, all I can say is WOW!\n\nI thank all the staff at Reno Regenerative Medicine for the support, the laughs and their support on my recovery!",
-  },
-  {
-    author: "Jim Quackenbush",
-    body: "Excellent staff , treat you like a person and not a number",
-  },
-  {
-    author: "Gen Gayo",
-    body:
-      "I have suffered for years with pain in my hands. I have consulted with several doctors and the last recommendation is to have surgery on both my hands. Because of my decision not to have surgery I continued having pains and not have good use of both my hands until I attended a seminar offered by the Reno Regenerative Medicine. Although the treatment was not covered by my insurance i decided to take the chance and get treated. I would have to say it was the best decision I ever made. With six weeks of treatment, I can feel significant changes in both my hands. Most of the pain the burning, tingling, tightness and numbness have been greatly reduced. Together with the treatment comes a diet that I have followed strictly and I have also noticed that I feel healthier. My total experience is life changing and I feel great not having to bear the pains in my hands everyday. I\u2019m so glad to have found this place to take care of my issues and avoid surgery. I would like to thank all the staff & nurses who are all exceptionally caring. I highly highly recommend Reno Regenerative Medicine.",
-  },
-  {
-    author: "William Curtis",
-    body:
-      "All of the staff was amazing always made me feel so welcome still does make me feel very welcome come to me during some tough times and overall the whole experience was life-changing I treat myself better I put better things in my body I\u2019m just really glad that I went to these folks very grateful for my experience",
-  },
-];
+type ReviewsBodyProps = {
+  reviews: GoogleReview[];
+  meta: GoogleReviewsMeta;
+};
 
 /* ================================================================== */
 /*  Section 1 — Rating Banner (verbatim)                              */
 /* ================================================================== */
-function RatingBanner() {
+function RatingBanner({
+  rating,
+  reviewCount,
+  reviewsUrl,
+}: {
+  rating: number;
+  reviewCount: number;
+  reviewsUrl: string;
+}) {
   return (
     <section className="relative bg-[#f6f3ea] py-20 md:py-28">
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -143,11 +94,16 @@ function RatingBanner() {
                   ))}
                 </div>
                 <p className="mt-5 font-serif-display text-[20px] leading-snug text-white/90">
-                  Based on 115 reviews
+                  {rating.toFixed(1)} on Google
                 </p>
-                <p className="mt-2 text-[12px] uppercase tracking-[0.24em] text-white/55">
-                  Verified by Google &middot; via Trustindex
-                </p>
+                <a
+                  href={reviewsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-block text-[12px] uppercase tracking-[0.24em] text-white/55 hover:text-[#f3d99a] transition-colors"
+                >
+                  Based on {reviewCount} reviews
+                </a>
               </div>
             </div>
           </motion.div>
@@ -189,7 +145,7 @@ function ReviewCard({ r, i }: { r: Review; i: number }) {
               {r.author}
             </p>
             <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a2332]/55">
-              Posted on Google
+              {r.when ?? "Posted on Google"}
             </p>
           </div>
         </div>
@@ -207,13 +163,19 @@ function ReviewCard({ r, i }: { r: Review; i: number }) {
       </p>
 
       <p className="mt-6 text-[11px] uppercase tracking-[0.22em] text-[#1a2332]/45">
-        Trustindex verifies that the original source of the review is Google.
+        Verified 5-star review from Google
       </p>
     </motion.article>
   );
 }
 
-function ReviewsWall() {
+function ReviewsWall({
+  reviews,
+  reviewsUrl,
+}: {
+  reviews: Review[];
+  reviewsUrl: string;
+}) {
   return (
     <section className="bg-white py-20 md:py-28">
       <div className="mx-auto w-full max-w-[1280px] px-6 xl:px-8">
@@ -233,14 +195,25 @@ function ReviewsWall() {
               What people are saying.
             </h2>
           </div>
-          <p className="max-w-md text-[15.5px] leading-[1.7] text-[#1a2332]/70">
-            A selection of recent Google reviews from patients of Reno Regenerative Medicine. Each review is shown verbatim.
-          </p>
+          <div className="max-w-md">
+            <p className="text-[15.5px] leading-[1.7] text-[#1a2332]/70">
+              5-star Google reviews from patients of Reno Regenerative Medicine. Each review is shown verbatim.
+            </p>
+            <a
+              href={reviewsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.18em] text-[#3d7a52] hover:text-[#0a120d]"
+            >
+              View all Google reviews
+              <span aria-hidden>→</span>
+            </a>
+          </div>
         </motion.div>
 
         <div className="mt-10 columns-1 gap-6 sm:columns-2 lg:columns-3 [column-fill:_balance]">
-          {REVIEWS.map((r, i) => (
-            <div key={r.author} className="mb-6 break-inside-avoid">
+          {reviews.map((r, i) => (
+            <div key={`${r.author}-${i}`} className="mb-6 break-inside-avoid">
               <ReviewCard r={r} i={i} />
             </div>
           ))}
@@ -251,11 +224,23 @@ function ReviewsWall() {
 }
 
 /* ================================================================== */
-export default function ReviewsBody() {
+export default function ReviewsBody({ reviews, meta }: ReviewsBodyProps) {
+  if (reviews.length === 0) return null;
+
+  const cards: Review[] = reviews.map((review) => ({
+    author: review.name,
+    body: review.quote,
+    when: review.relativeTime ?? "Posted on Google",
+  }));
+
   return (
     <>
-      <RatingBanner />
-      <ReviewsWall />
+      <RatingBanner
+        rating={meta.rating}
+        reviewCount={meta.reviewCount}
+        reviewsUrl={meta.reviewsUrl}
+      />
+      <ReviewsWall reviews={cards} reviewsUrl={meta.reviewsUrl} />
     </>
   );
 }

@@ -4,20 +4,18 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const REVIEWS = [
-  {
-    name: "Calvin C.",
-    text: "Great staff very friendly they are very thorough went in for my shoulder but they fixed everything I had severe foot pain and lower back pain lived on Advil they worked on all of it played my first round of pain free golf ever and haven't taken any Advil for 2 months.",
-  },
-  {
-    name: "Cindi S.",
-    text: "Was having shoulder and thumb pain and after an adjustment and some home excercises feeling much better. Planning on PRP therapy. The staff was courteous, friendly, knowledgeable and professional.",
-  },
-  {
-    name: "Cindy L.",
-    text: "The attention Dr Lloyd gives each and every person that comes to see him is amazing. When your in pain it can be a little scary to trust someone not to make it worse. I am so glad I trusted Dr. Lloyd!!!! My pain is manageable now and getting better all the time.",
-  },
-];
+type TestimonialItem = {
+  name: string;
+  quote: string;
+  when?: string;
+};
+
+type TestimonialsProps = {
+  items: TestimonialItem[];
+  rating: number;
+  reviewCount: number;
+  reviewsUrl: string;
+};
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -50,20 +48,33 @@ function OrbitRings() {
   );
 }
 
-export default function Testimonials() {
+export default function Testimonials({
+  items,
+  rating,
+  reviewCount,
+  reviewsUrl,
+}: TestimonialsProps) {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
-  const r = REVIEWS[i];
+  const reviews = items;
+  const r = reviews[i];
+
+  useEffect(() => {
+    setI(0);
+  }, [reviews.length]);
 
   // Auto-advance the carousel every 7s unless hovered
   useEffect(() => {
-    if (paused) return;
-    const id = setInterval(() => setI((v) => (v + 1) % REVIEWS.length), 7000);
+    if (paused || reviews.length === 0) return;
+    const id = setInterval(() => setI((v) => (v + 1) % reviews.length), 7000);
     return () => clearInterval(id);
-  }, [paused]);
+  }, [paused, reviews.length]);
 
-  const next = () => setI((v) => (v + 1) % REVIEWS.length);
-  const prev = () => setI((v) => (v - 1 + REVIEWS.length) % REVIEWS.length);
+  if (reviews.length === 0 || !r) return null;
+
+  const next = () => setI((v) => (v + 1) % reviews.length);
+  const prev = () => setI((v) => (v - 1 + reviews.length) % reviews.length);
+  const ratingLabel = rating.toFixed(1);
 
   return (
     <section
@@ -114,6 +125,9 @@ export default function Testimonials() {
           >
             What Our <em className="italic text-[#c6b180]">Patients</em> Say
           </h2>
+          <p className="mt-3 text-[11px] uppercase tracking-[0.28em] text-white/50">
+            Verified on Google
+          </p>
         </motion.div>
 
         {/* Stats */}
@@ -124,12 +138,17 @@ export default function Testimonials() {
           transition={{ duration: 0.6, ease, delay: 0.1 }}
           className="mt-10 grid grid-cols-2 gap-4 max-w-md mx-auto"
         >
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md px-5 py-4 text-center">
-            <div className="font-serif-display text-3xl text-[#c6b180]">4.8★</div>
+          <a
+            href={reviewsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md px-5 py-4 text-center hover:border-[#c6b180]/40 transition-colors"
+          >
+            <div className="font-serif-display text-3xl text-[#c6b180]">{ratingLabel}★</div>
             <div className="mt-1.5 text-[10px] uppercase tracking-[0.25em] text-white/60">
-              201 Google Reviews
+              {reviewCount} Google Reviews
             </div>
-          </div>
+          </a>
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md px-5 py-4 text-center">
             <div className="font-serif-display text-3xl text-[#c6b180]">9+</div>
             <div className="mt-1.5 text-[10px] uppercase tracking-[0.25em] text-white/60">
@@ -172,7 +191,7 @@ export default function Testimonials() {
                   className="text-center"
                 >
                   <p className="font-sans text-lg sm:text-xl leading-[1.7] text-white/90 max-w-3xl mx-auto">
-                    {r.text}
+                    {r.quote}
                   </p>
                   <footer className="mt-8 flex flex-col items-center gap-3">
                     <div
@@ -202,6 +221,9 @@ export default function Testimonials() {
                         {r.name}
                       </cite>
                     </div>
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/50">
+                      {r.when ?? "Posted on Google"}
+                    </p>
                   </footer>
                 </motion.blockquote>
               </AnimatePresence>
@@ -222,7 +244,7 @@ export default function Testimonials() {
 
               {/* Dots */}
               <div className="flex items-center gap-2.5">
-                {REVIEWS.map((_, idx) => (
+                {reviews.map((_, idx) => (
                   <button
                     key={idx}
                     type="button"
@@ -268,12 +290,12 @@ export default function Testimonials() {
             <span aria-hidden>→</span>
           </Link>
           <a
-            href="https://www.google.com/maps/search/Reno+Regenerative+Medicine+Reno+NV"
+            href={reviewsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.25em] text-white/70 hover:text-[#c6b180] border-b border-white/20 hover:border-[#c6b180] pb-1 transition-colors"
           >
-            View All 201 Reviews on Google
+            View all Google reviews
             <span aria-hidden>→</span>
           </a>
         </motion.div>

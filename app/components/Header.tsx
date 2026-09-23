@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BOOKING_URL } from "../lib/constants";
+import { googleReviewsMeta } from "@/lib/reviews";
 
 /* -------------------------------------------------------------------------- */
 /*  Nav data                                                                  */
@@ -191,12 +192,20 @@ function TopBar({ visible }: { visible: boolean }) {
         </div>
 
         <div className="flex items-center gap-4">
-          <span aria-label="4.8 Google rating" className="hidden md:flex items-center gap-1 text-[#c6b180]">
+          <a
+            href={googleReviewsMeta.reviewsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${googleReviewsMeta.rating.toFixed(1)} Google rating`}
+            className="hidden md:flex items-center gap-1 text-[#c6b180] hover:opacity-80 transition-opacity"
+          >
             {Array.from({ length: 5 }).map((_, i) => (
               <StarIcon key={i} />
             ))}
-            <span className="ml-1.5 text-white/85 text-[12px] font-medium">4.8</span>
-          </span>
+            <span className="ml-1.5 text-white/85 text-[12px] font-medium">
+              {googleReviewsMeta.rating.toFixed(1)}
+            </span>
+          </a>
           <span className="hidden md:inline text-white/25">|</span>
           <a href="https://www.facebook.com/renoregenerative" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-white/70 hover:text-[#c6b180] transition-colors">
             <FacebookIcon />
@@ -461,9 +470,17 @@ function MobileMenu({
                   <YouTubeIcon />
                 </a>
                 <span className="text-white/25">|</span>
-                <span className="inline-flex items-center gap-1 text-[#c6b180]">
-                  <StarIcon /><span className="text-white/80 text-[12px] font-medium">4.8 · 200+</span>
-                </span>
+                <a
+                  href={googleReviewsMeta.reviewsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[#c6b180] hover:opacity-80 transition-opacity"
+                >
+                  <StarIcon />
+                  <span className="text-white/80 text-[12px] font-medium">
+                    {googleReviewsMeta.rating.toFixed(1)} · {googleReviewsMeta.reviewCount}
+                  </span>
+                </a>
               </div>
             </div>
           </motion.aside>

@@ -6,6 +6,7 @@ import "./globals.css";
 import ScrollToTop from "./components/ScrollToTop";
 import JsonLd from "./components/JsonLd";
 import { buildMedicalBusinessSchema } from "./lib/jsonLd";
+import { getDisplayedGoogleReviews } from "@/lib/google-reviews";
 
 const sans = Inter({
   variable: "--font-sans-ui",
@@ -53,9 +54,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const reviewsPayload = await getDisplayedGoogleReviews();
+
   return (
     <html
       lang="en"
@@ -89,7 +92,7 @@ export default function RootLayout({
         className="min-h-full flex flex-col bg-white text-ink"
         suppressHydrationWarning
       >
-        <JsonLd schema={buildMedicalBusinessSchema()} />
+        <JsonLd schema={buildMedicalBusinessSchema(reviewsPayload)} />
         <Suspense fallback={null}>
           <ScrollToTop />
         </Suspense>

@@ -2,6 +2,7 @@
 // page files can simply call a builder and render the result with <JsonLd/>.
 
 import { SERVICES_BY_SLUG, type ServiceData, type ServiceSlug } from "./services";
+import { isFiveStarReview, type GoogleReview, type GoogleReviewsMeta } from "@/lib/reviews";
 
 export const SITE_URL = "https://www.renoregen.com";
 export const BRAND = "Reno Regenerative Medicine";
@@ -9,7 +10,13 @@ export const BRAND = "Reno Regenerative Medicine";
 const BUSINESS_ID = `${SITE_URL}/#business`;
 
 /** MedicalBusiness / LocalBusiness — applies site-wide, injected from layout. */
-export function buildMedicalBusinessSchema() {
+export function buildMedicalBusinessSchema(reviewsPayload?: {
+  reviews: GoogleReview[];
+  meta: GoogleReviewsMeta;
+}) {
+  const visible = (reviewsPayload?.reviews ?? []).filter(isFiveStarReview);
+  const meta = reviewsPayload?.meta;
+
   return {
     "@context": "https://schema.org",
     "@type": ["MedicalBusiness", "LocalBusiness"],
@@ -47,11 +54,37 @@ export function buildMedicalBusinessSchema() {
       "https://www.facebook.com/renoregenerative",
       "https://www.youtube.com/channel/UCAoMwIvwTV-jKzS7MZttmVg",
     ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "201",
-    },
+    ...(meta
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: String(meta.rating),
+            reviewCount: String(meta.reviewCount),
+            bestRating: "5",
+          },
+        }
+      : {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.7",
+            reviewCount: "202",
+            bestRating: "5",
+          },
+        }),
+    ...(visible.length > 0
+      ? {
+          review: visible.map((review) => ({
+            "@type": "Review",
+            author: { "@type": "Person", name: review.name },
+            reviewRating: {
+              "@type": "Rating",
+              ratingValue: "5",
+              bestRating: "5",
+            },
+            reviewBody: review.quote,
+          })),
+        }
+      : {}),
   };
 }
 

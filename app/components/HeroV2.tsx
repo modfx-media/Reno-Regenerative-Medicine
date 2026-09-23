@@ -6,12 +6,11 @@ import MotionOrbs from "./MotionOrbs";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const STATS = [
-  { value: "9", label: "Years of care" },
-  { value: "4.8★", label: "200+ Google reviews" },
-  { value: "On-site", label: "X-ray imaging" },
-  { value: "Same-week", label: "New patient visits" },
-];
+type HeroV2Props = {
+  rating?: number;
+  reviewCount?: number;
+  reviewsUrl?: string;
+};
 
 const FLOATING_CHIPS = [
   { label: "Regenerative Medicine", x: "6%", y: "22%", delay: 0.6 },
@@ -72,7 +71,21 @@ function OrbitRings() {
   );
 }
 
-export default function HeroV2() {
+export default function HeroV2({
+  rating = 4.7,
+  reviewCount = 202,
+  reviewsUrl,
+}: HeroV2Props) {
+  const stats = [
+    { value: "9", label: "Years of care" },
+    {
+      value: `${rating.toFixed(1)}★`,
+      label: `${reviewCount} Google reviews`,
+      href: reviewsUrl,
+    },
+    { value: "On-site", label: "X-ray imaging" },
+    { value: "Same-week", label: "New patient visits" },
+  ];
   return (
     <section className="relative isolate overflow-hidden bg-[#0f1a14] text-white">
       {/* Background video */}
@@ -220,22 +233,37 @@ export default function HeroV2() {
           transition={{ duration: 0.7, ease, delay: 0.55 }}
           className="mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4"
         >
-          {STATS.map((s, i) => (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease, delay: 0.6 + i * 0.08 }}
-              className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-4 py-3 text-left"
-            >
-              <div className="font-serif-display text-[22px] leading-none text-[#c6b180]">
-                {s.value}
-              </div>
-              <div className="mt-1.5 text-[10px] uppercase tracking-[0.16em] text-white/60">
-                {s.label}
-              </div>
-            </motion.div>
-          ))}
+          {stats.map((s, i) => {
+            const inner = (
+              <>
+                <div className="font-serif-display text-[22px] leading-none text-[#c6b180]">
+                  {s.value}
+                </div>
+                <div className="mt-1.5 text-[10px] uppercase tracking-[0.16em] text-white/60">
+                  {s.label}
+                </div>
+              </>
+            );
+            const className =
+              "rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-4 py-3 text-left";
+
+            return (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease, delay: 0.6 + i * 0.08 }}
+              >
+                {"href" in s && s.href ? (
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" className={`${className} block hover:border-[#c6b180]/40 transition-colors`}>
+                    {inner}
+                  </a>
+                ) : (
+                  <div className={className}>{inner}</div>
+                )}
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
 

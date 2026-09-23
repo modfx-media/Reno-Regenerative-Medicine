@@ -10,6 +10,8 @@ import DoctorSpotlight from "./components/DoctorSpotlight";
 import Testimonials from "./components/Testimonials";
 import ContactCTASection from "./components/ContactCTASection";
 import Footer from "./components/Footer";
+import { GoogleReviews } from "./components/GoogleReviews";
+import { getDisplayedGoogleReviews } from "@/lib/google-reviews";
 
 export const metadata: Metadata = {
   title: {
@@ -30,20 +32,43 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+  const { meta } = await getDisplayedGoogleReviews();
+
   return (
     <>
       <Header />
       <main className="flex-1">
-        <HeroV2 />
-        <TrustBar />
+        <HeroV2
+          rating={meta.rating}
+          reviewCount={meta.reviewCount}
+          reviewsUrl={meta.reviewsUrl}
+        />
+        <TrustBar reviewCount={meta.reviewCount} reviewsUrl={meta.reviewsUrl} />
         <ApproachSection />
         <ServicesBento />
         <BodyMapSection />
         <ProcessSteps />
         <DoctorSpotlight />
-        <Testimonials />
-        <ContactCTASection />
+        <GoogleReviews>
+          {({ reviews, meta: reviewMeta }) => (
+            <Testimonials
+              items={reviews.map((review) => ({
+                name: review.name,
+                quote: review.quote,
+                when: review.relativeTime ?? "Posted on Google",
+              }))}
+              rating={reviewMeta.rating}
+              reviewCount={reviewMeta.reviewCount}
+              reviewsUrl={reviewMeta.reviewsUrl}
+            />
+          )}
+        </GoogleReviews>
+        <ContactCTASection
+          rating={meta.rating}
+          reviewCount={meta.reviewCount}
+          reviewsUrl={meta.reviewsUrl}
+        />
       </main>
       <Footer />
     </>
