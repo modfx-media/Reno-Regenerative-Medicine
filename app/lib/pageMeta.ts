@@ -575,6 +575,12 @@ const POST_SLUGS: { slug: string; title: string; description: string }[] = [
       "Reno's dry air, altitude, and big temperature swings can make arthritis pain louder. Learn how the local climate affects your joints and when it is time to look into arthritis treatment in Reno.",
   },
   {
+    slug: "/reno-stem-cell-therapy-costs-safety-and-clinic-tips/",
+    title: "Reno Stem Cell Therapy Costs, Safety, And Clinic Tips",
+    description:
+      "Use this patient checklist to compare stem cell therapy in Reno, understand costs and safety, and spot red flags before choosing a clinic",
+  },
+  {
     slug: "/stem-cell-prp-or-exosomes-in-reno-how-to-choose/",
     title: "Stem Cell, PRP, Or Exosomes in Reno: How to Choose",
     description:
