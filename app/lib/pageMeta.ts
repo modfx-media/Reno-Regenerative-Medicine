@@ -42,6 +42,13 @@ export const PAGES: PageMeta[] = [
     priority: 0.8,
   },
   {
+    slug: "/meet-the-providers/",
+    title: "Meet the Providers | Reno Regenerative Medicine",
+    description:
+      "Get to know the experienced providers at Reno Regenerative Medicine, dedicated to personalized, evidence-based care for lasting pain relief. Learn more!",
+    priority: 0.7,
+  },
+  {
     slug: "/new-patients/",
     title: "New Patient Information",
     description:

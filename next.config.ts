@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   trailingSlash: true,
+  images: {
+    // default allow-list is only [75] — add higher values used by next/image `quality` props.
+    qualities: [75, 90, 95],
+  },
   outputFileTracingExcludes: {
     '*': [
       './public/images/**',
