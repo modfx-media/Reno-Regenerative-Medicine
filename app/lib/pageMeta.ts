@@ -582,6 +582,18 @@ const POST_SLUGS: { slug: string; title: string; description: string }[] = [
       "Reno's dry air, altitude, and big temperature swings can make arthritis pain louder. Learn how the local climate affects your joints and when it is time to look into arthritis treatment in Reno.",
   },
   {
+    slug: "/reno-car-crash-injuries-signs-of-hidden-spine-damage/",
+    title: "Reno Car Crash Injuries: Signs of Hidden Spine Damage",
+    description:
+      "Learn how an auto accident injury in Reno can mask spinal damage, key symptoms to watch, and when to seek care for safer recovery",
+  },
+  {
+    slug: "/back-pain-options-in-reno-beyond-stem-cell-therapy/",
+    title: "Back Pain Options in Reno Beyond Stem Cell Therapy",
+    description:
+      "Not sure if stem cell therapy in Reno is right for back pain? Compare PT, spinal decompression, and PRP options and how to choose safely",
+  },
+  {
     slug: "/reno-stem-cell-therapy-costs-safety-and-clinic-tips/",
     title: "Reno Stem Cell Therapy Costs, Safety, And Clinic Tips",
     description:
