@@ -582,6 +582,12 @@ const POST_SLUGS: { slug: string; title: string; description: string }[] = [
       "Reno's dry air, altitude, and big temperature swings can make arthritis pain louder. Learn how the local climate affects your joints and when it is time to look into arthritis treatment in Reno.",
   },
   {
+    slug: "/sciatica-vs-disc-vs-facet-pain-reno-relief-options/",
+    title: "Sciatica vs Disc vs Facet Pain: Reno Relief Options",
+    description:
+      "Learn how to spot sciatica, disc, or facet pain and explore back pain treatment in Reno options, from decompression to injections and rehab",
+  },
+  {
     slug: "/reno-car-crash-injuries-signs-of-hidden-spine-damage/",
     title: "Reno Car Crash Injuries: Signs of Hidden Spine Damage",
     description:
