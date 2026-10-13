@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -11,6 +12,27 @@ const credentials = [
   "On-site X-ray Imaging",
   "Cold Laser & Joint Injection Specialist",
 ];
+
+const team = [
+  {
+    name: "Cornell Calinescu, MD",
+    role: "Medical Director",
+    src: "/images/Calinescu Pic.jpg",
+    width: 1074,
+    height: 1041,
+    frame: "col-span-8",
+    sizes: "(min-width: 1024px) 360px, 64vw",
+  },
+  {
+    name: "Rachael Hueftle, MSN",
+    role: "Nurse Practitioner",
+    src: "/images/RachaelHueftle (1).jpg",
+    width: 400,
+    height: 470,
+    frame: "col-span-4",
+    sizes: "(min-width: 1024px) 180px, 32vw",
+  },
+] as const;
 
 export default function DoctorSpotlight() {
   return (
@@ -25,18 +47,34 @@ export default function DoctorSpotlight() {
             transition={{ duration: 0.7, ease }}
             className="lg:col-span-5 relative"
           >
-            <div className="relative aspect-[4/5] w-full max-w-md">
-              <div
-                className="absolute inset-0 rounded-3xl bg-cover bg-center shadow-2xl"
-                style={{
-                  backgroundImage:
-                    "url('https://images.unsplash.com/photo-1612531386530-97286d97c2d2?auto=format&fit=crop&w=900&q=80')",
-                }}
-              />
-              <div className="absolute inset-0 rounded-3xl ring-1 ring-black/5" />
+            <div className="mx-auto w-full max-w-lg">
+              <div className="grid grid-cols-12 items-end gap-3 sm:gap-4">
+                {team.map((provider) => (
+                  <figure key={provider.name} className={provider.frame}>
+                    <div className="overflow-hidden rounded-[28px] bg-white shadow-[0_30px_60px_-30px_rgba(10,18,13,0.45)] ring-1 ring-black/5">
+                      <Image
+                        src={provider.src}
+                        alt={`${provider.name}, ${provider.role} at Reno Regenerative Medicine`}
+                        width={provider.width}
+                        height={provider.height}
+                        quality={90}
+                        sizes={provider.sizes}
+                        className="block h-auto w-full"
+                      />
+                    </div>
+                    <figcaption className="mt-3 px-0.5">
+                      <div className="font-serif-display text-[15px] sm:text-[17px] leading-tight text-[#1a2332]">
+                        {provider.name}
+                      </div>
+                      <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#4a7c59]">
+                        {provider.role}
+                      </div>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
 
-              {/* Corner stat */}
-              <div className="absolute -bottom-6 -right-4 sm:-right-6 bg-white rounded-2xl p-5 shadow-xl ring-1 ring-black/5 max-w-[220px]">
+              <div className="mt-5 inline-block max-w-[220px] rounded-2xl bg-white p-5 shadow-xl ring-1 ring-black/5">
                 <div className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#4a7c59]">
                   Reno Regenerative
                 </div>
