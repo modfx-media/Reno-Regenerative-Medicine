@@ -12,6 +12,7 @@ import {
   getMeta,
   type PageMeta,
 } from "../lib/pageMeta";
+import { CLIENT_BLOGS_HIDDEN, isHiddenBlogPath } from "../lib/posts";
 
 const meta = getMeta("/sitemap/")!;
 
@@ -31,7 +32,7 @@ const MAIN_SLUGS = [
   "/contact/",
   "/reno-office/",
   "/seminars/",
-  "/blog/",
+  ...(CLIENT_BLOGS_HIDDEN ? [] : ["/blog/"]),
   "/reviews/",
   "/rate-us/",
   "/video-testimonials/",
@@ -100,7 +101,7 @@ const GROUPS: SitemapGroup[] = [
     heading: "Categories",
     description: "Browse the journal by topic.",
     icon: "tag",
-    pages: [...CATEGORIES],
+    pages: CLIENT_BLOGS_HIDDEN ? [] : [...CATEGORIES],
   },
   {
     heading: "Site & Legal",
@@ -111,7 +112,7 @@ const GROUPS: SitemapGroup[] = [
 ];
 
 const grouped = new Set(GROUPS.flatMap((g) => g.pages.map((p) => p.slug)));
-const orphans = PAGES.filter((p) => !grouped.has(p.slug));
+const orphans = PAGES.filter((p) => !grouped.has(p.slug) && !isHiddenBlogPath(p.slug));
 if (orphans.length > 0) {
   GROUPS.push({
     heading: "Other",
@@ -138,9 +139,9 @@ export default function Page() {
           size="md"
         />
         <SitemapBody
-          groups={GROUPS}
-          posts={[...POSTS]}
-          totalLinks={ALL_PAGES.length}
+          groups={GROUPS.filter((g) => g.pages.length > 0)}
+          posts={CLIENT_BLOGS_HIDDEN ? [] : [...POSTS]}
+          totalLinks={CLIENT_BLOGS_HIDDEN ? ALL_PAGES.length - POSTS.length - CATEGORIES.length - 1 : ALL_PAGES.length}
         />
         <CTASection />
       </main>

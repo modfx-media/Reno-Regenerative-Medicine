@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import FadeIn from "./FadeIn";
+import { CLIENT_BLOGS_HIDDEN } from "../lib/posts";
 
 const CARDS: { eyebrow: string; title: string; desc: string; cta: string; href: string }[] = [
   { eyebrow: "Upcoming Seminars", title: "Free Educational Seminars", desc: "Join Reno Regenerative Medicine for our regular free seminars on regenerative joint injections, neuropathy relief, hormone optimization and more. Learn what's possible — without surgery or prescription pain medication.", cta: "See Seminar Schedule →", href: "/seminars/" },
@@ -25,8 +26,8 @@ export default function HealthEducationSection() {
           </p>
         </FadeIn>
 
-        <ul className="mt-14 grid gap-px bg-sand md:grid-cols-3 border border-sand">
-          {CARDS.map((c, i) => (
+        <ul className={`mt-14 grid gap-px bg-sand border border-sand ${CLIENT_BLOGS_HIDDEN ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
+          {(CLIENT_BLOGS_HIDDEN ? CARDS.filter((c) => c.href !== "/blog/") : CARDS).map((c, i) => (
             <motion.li
               key={c.title}
               initial={{ opacity: 0, y: 30 }}

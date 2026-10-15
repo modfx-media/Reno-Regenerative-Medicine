@@ -5,7 +5,8 @@ import { useCallback, useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import Header from "./Header";
 import Footer from "./Footer";
-import { getRelatedPosts, type Post } from "../lib/posts";
+import { notFound } from "next/navigation";
+import { getRelatedPosts, isClientBlogHidden, type Post } from "../lib/posts";
 import { BOOKING_URL } from "../lib/constants";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -447,6 +448,8 @@ function PostCTA() {
 
 /* ================================================================== */
 export default function BlogPostShell({ post, readTime, summary, relatedPosts, children }: BlogPostShellProps) {
+  if (isClientBlogHidden(post.slug)) notFound();
+
   return (
     <>
       <Header />

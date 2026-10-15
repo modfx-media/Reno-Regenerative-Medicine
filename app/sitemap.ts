@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { ALL_PAGES } from "./lib/pageMeta";
+import { isHiddenBlogPath } from "./lib/posts";
 import { getAllSlugs } from "./lib/pseo/combinations";
 import { getRankedOnlyBlogSlugs } from "@/lib/ranked/posts";
 
@@ -8,7 +9,7 @@ const SITE = "https://www.renoregen.com";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  const corePages: MetadataRoute.Sitemap = ALL_PAGES.map((p) => ({
+  const corePages: MetadataRoute.Sitemap = ALL_PAGES.filter((p) => !isHiddenBlogPath(p.slug)).map((p) => ({
     url: `${SITE}${p.slug}`,
     lastModified: now,
     changeFrequency: p.changefreq ?? "monthly",

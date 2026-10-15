@@ -4,8 +4,10 @@ import Footer from "../components/Footer";
 import PageHero from "../components/PageHero";
 import CTASection from "../components/CTASection";
 import BlogIndexBody from "./BlogIndexBody";
+import { notFound } from "next/navigation";
 import { getPublishedBlogPosts } from "@/lib/ranked/posts";
 import { toIndexPost } from "@/lib/ranked/display";
+import { CLIENT_BLOGS_HIDDEN } from "@/app/lib/posts";
 
 export const revalidate = 3600;
 
@@ -25,6 +27,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const published = await getPublishedBlogPosts();
+  if (CLIENT_BLOGS_HIDDEN && published.length === 0) notFound();
   const posts = [...published]
     .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
     .map(toIndexPost);

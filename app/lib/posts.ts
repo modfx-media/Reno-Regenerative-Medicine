@@ -14,6 +14,32 @@ export type Post = {
   href?: string;
 };
 
+/**
+ * Client blog articles stay in the repo (routes + copy) but are unpublished.
+ * Flip to `false` to show them again in nav, listings, sitemaps, and public URLs.
+ */
+export const CLIENT_BLOGS_HIDDEN = true;
+
+export function getVisiblePosts(): readonly Post[] {
+  return CLIENT_BLOGS_HIDDEN ? [] : POSTS;
+}
+
+export function isClientBlogHidden(slug?: string): boolean {
+  if (!CLIENT_BLOGS_HIDDEN) return false;
+  if (!slug) return true;
+  return POSTS.some((post) => post.slug === slug);
+}
+
+/** True for /blog/, category indexes, and compiled client post URLs. */
+export function isHiddenBlogPath(pathname: string): boolean {
+  if (!CLIENT_BLOGS_HIDDEN) return false;
+  const path = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
+  if (path === "/blog" || path === "/category/blog" || path === "/category/regenerative-medicine") {
+    return true;
+  }
+  return POSTS.some((post) => path === `/${post.slug}`);
+}
+
 export const POSTS: readonly Post[] = [
   { slug: "sciatica-vs-disc-vs-facet-pain-reno-relief-options", title: "Stop Guessing Your Back Pain: Know What You’re Dealing With", date: "October 12, 2026", image: "/blogs-images/sciatica-vs-disc-vs-facet-pain-reno-relief-options.jpg", excerpt: "Learn how to spot sciatica, disc, or facet pain and explore back pain treatment in Reno options, from decompression to injections and rehab", category: "spinal-decompression" },
   { slug: "reno-car-crash-injuries-signs-of-hidden-spine-damage", title: "Hidden Spinal Damage After a \"Minor\" Crash", date: "October 5, 2026", image: "/blogs-images/reno-car-crash-injuries-signs-of-hidden-spine-damage.jpg", excerpt: "Learn how an auto accident injury in Reno can mask spinal damage, key symptoms to watch, and when to seek care for safer recovery", category: "chiropractic-care" },
@@ -72,8 +98,9 @@ export function getPost(slug: string): Post | undefined {
 }
 
 export function getRelatedPosts(slug: string, limit = 3): Post[] {
+  const visible = getVisiblePosts();
   const current = getPost(slug);
-  const others = POSTS.filter((p) => p.slug !== slug);
+  const others = visible.filter((p) => p.slug !== slug);
   if (!current || !current.category) return others.slice(0, limit);
   const sameCat = others.filter((p) => p.category === current.category);
   const fill = others.filter((p) => p.category !== current.category);

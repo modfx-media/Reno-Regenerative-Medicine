@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BOOKING_URL } from "../lib/constants";
+import { CLIENT_BLOGS_HIDDEN } from "../lib/posts";
 import { googleReviewsMeta } from "@/lib/reviews";
 
 /* -------------------------------------------------------------------------- */
@@ -71,7 +72,7 @@ const NAV: NavItem[] = [
       { label: "Video Testimonials", href: "/video-testimonials" },
     ],
   },
-  { label: "Blog", href: "/blog" },
+  ...(CLIENT_BLOGS_HIDDEN ? [] : [{ label: "Blog", href: "/blog" } as NavItem]),
   {
     label: "Contact",
     href: "/contact",

@@ -1,4 +1,5 @@
 import ScrollLink from "./ScrollLink";
+import { CLIENT_BLOGS_HIDDEN } from "../lib/posts";
 
 const SERVICES = [
   { label: "Joint Injections", href: "/joint-injections/" },
@@ -17,7 +18,7 @@ const PATIENTS = [
   { label: "Patient Reviews", href: "/reviews/" },
   { label: "Video Testimonials", href: "/video-testimonials/" },
   { label: "Seminars", href: "/seminars/" },
-  { label: "Blog", href: "/blog/" },
+  ...(CLIENT_BLOGS_HIDDEN ? [] : [{ label: "Blog", href: "/blog/" }]),
 ];
 
 const PRACTICE = [

@@ -1,4 +1,4 @@
-import { POSTS } from '@/app/lib/posts'
+import { CLIENT_BLOGS_HIDDEN, POSTS } from '@/app/lib/posts'
 import { DEFAULT_CTA } from './config'
 import type { BlogPostData } from './types'
 
@@ -30,6 +30,7 @@ function localDateToIso(date: string): string {
 
 /** Existing compiled posts win on slug collision so a Ranked import cannot overwrite them. */
 export function getLocalBlogPosts(): BlogPostData[] {
+  if (CLIENT_BLOGS_HIDDEN) return []
   return POSTS.map((post) => ({
     slug: post.slug,
     title: post.title,
