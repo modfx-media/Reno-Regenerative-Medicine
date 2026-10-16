@@ -100,9 +100,10 @@ export default function Footer() {
         </div>
 
         <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/50">
-          <p>© {new Date().getFullYear()} Reno Regenerative Medicine. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Regen Providers dba Reno Regenerative Medicine. All rights reserved.</p>
           <ul className="flex items-center gap-6">
             <li><ScrollLink href="/privacy-policy/" className="hover:text-olive transition-colors">Privacy Policy</ScrollLink></li>
+            <li><ScrollLink href="/terms-of-service/" className="hover:text-olive transition-colors">Terms of Service</ScrollLink></li>
             <li><ScrollLink href="/accessibility/" className="hover:text-olive transition-colors">Accessibility</ScrollLink></li>
             <li><ScrollLink href="/sitemap/" className="hover:text-olive transition-colors">Sitemap</ScrollLink></li>
           </ul>

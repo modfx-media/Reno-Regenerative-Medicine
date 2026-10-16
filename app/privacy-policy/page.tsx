@@ -19,6 +19,7 @@ const SECTIONS: { id: string; label: string }[] = [
   { id: "uses", label: "Our Uses & Disclosures" },
   { id: "other-uses", label: "Other Ways We Share" },
   { id: "responsibilities", label: "Our Responsibilities" },
+  { id: "information-sharing", label: "Information Sharing & Disclosure" },
   { id: "changes", label: "Changes to This Notice" },
 ];
 
@@ -334,13 +335,6 @@ export default function Page() {
                     ]}
                   />
 
-                  <SubBlock
-                    title="SMS Registration"
-                    body={[
-                      "SMS consent and phone numbers will never be shared with third parties or affiliates under any circumstances.",
-                    ]}
-                  />
-
                   <p className="mt-4 text-ink/80">
                     For more information see:{" "}
                     <a
@@ -352,6 +346,68 @@ export default function Page() {
                       hhs.gov/ocr/privacy/hipaa/understanding/consumers/noticepp.html
                     </a>
                     .
+                  </p>
+                </section>
+
+                <section id="information-sharing" className="mt-14 scroll-mt-32">
+                  <h3 className="font-serif-display text-2xl text-ink">
+                    Information Sharing & Disclosure
+                  </h3>
+                  <p className="mt-3 text-ink/80">
+                    We do not sell, rent, or trade personal information. We may
+                    share information with:
+                  </p>
+
+                  <SubBlock title="Service Providers:" body={[]}>
+                    <Bullets
+                      items={[
+                        "Third-party vendors who assist in our operations (e.g., payment processing, appointment scheduling)",
+                        "SMS aggregators and providers solely for the purpose of delivering messages you've consented to receive",
+                        "All service providers are contractually obligated to maintain confidentiality and security",
+                      ]}
+                    />
+                  </SubBlock>
+                  <SubBlock title="Legal Compliance:" body={[]}>
+                    <Bullets
+                      items={[
+                        "If required by law, legal process, or to protect our rights",
+                        "In response to valid law enforcement requests or court orders",
+                      ]}
+                    />
+                  </SubBlock>
+                  <SubBlock title="Business Transfers:" body={[]}>
+                    <Bullets
+                      items={[
+                        "In case of mergers, acquisitions, or sale of assets",
+                        "In such cases, your data remains protected under the terms of this policy",
+                      ]}
+                    />
+                  </SubBlock>
+
+                  <p className="mt-6 text-ink/80">
+                    All the above categories exclude text messaging originator
+                    opt-in data and consent; this information will not be shared
+                    with any third parties, excluding aggregators and providers
+                    of the Text Message services.
+                  </p>
+                  <p className="mt-4 text-ink/80">
+                    No mobile information will be shared with third
+                    parties/affiliates for marketing/promotional purposes.
+                    Information sharing to subcontractors in support services,
+                    such as customer service, is permitted.
+                  </p>
+                  <p className="mt-4 text-ink/80">
+                    We maintain reasonable administrative, technical, and
+                    physical safeguards to protect personal information.
+                  </p>
+                  <p className="mt-4 text-ink/80">
+                    Message frequency may vary
+                  </p>
+                  <p className="mt-4 text-ink/80">
+                    Message and data rates may apply
+                  </p>
+                  <p className="mt-4 text-ink/80">
+                    Opt-out instructions: Users can reply STOP at any time
                   </p>
                 </section>
 
@@ -400,12 +456,12 @@ export default function Page() {
 
 function SubBlock({
   title,
-  body,
+  body = [],
   example,
   children,
 }: {
   title: string;
-  body: string[];
+  body?: string[];
   example?: string;
   children?: React.ReactNode;
 }) {

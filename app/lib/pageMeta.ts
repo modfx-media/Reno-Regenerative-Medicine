@@ -149,6 +149,14 @@ export const PAGES: PageMeta[] = [
     changefreq: "yearly",
   },
   {
+    slug: "/terms-of-service/",
+    title: d("Terms of Service"),
+    description:
+      "SMS messaging terms and compliance for Reno Regenerative Medicine.",
+    priority: 0.3,
+    changefreq: "yearly",
+  },
+  {
     slug: "/accessibility/",
     title: d("Accessibility Statement"),
     description:

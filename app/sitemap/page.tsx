@@ -41,6 +41,7 @@ const MAIN_SLUGS = [
 const SITE_SLUGS = [
   "/careers/",
   "/privacy-policy/",
+  "/terms-of-service/",
   "/accessibility/",
   "/sitemap/",
   "/thank-you/",
