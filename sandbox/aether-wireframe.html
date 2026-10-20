@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--
+  AETHER — Test-bench LOW-FI WIREFRAME (standalone sandbox)
+  ------------------------------------------------------------------
+  Purpose: a fixed brief used to benchmark the whole toolchain.
+  This file is the STAGE-1 (wireframe) + STAGE-6 (code build) artifact.
+  Open it directly in a browser. No build step, no dependencies.
+
+  Brief: AETHER — regenerative skincare. One-page scroll site.
+  Sections map 1:1 to the asset slots the AI tools fill:
+    [HERO]      -> hero VIDEO loop (Higgsfield generate_video)
+    [PRODUCT]   -> interactive 3D bottle (Higgsfield generate_3d -> GLB -> R3F)
+    [SCIENCE]   -> hero STILL / texture (Higgsfield generate_image)
+    [CTA]       -> motion accents (Rive/Lottie) + GSAP scroll
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AETHER — Wireframe Sandbox</title>
+<style>
+  :root{
+    --ink:#111; --line:#bbb; --fill:#e9e9e9; --fill2:#dcdcdc;
+    --note:#7a5cff; --accent:#0a7;
+    --mono:'SF Mono',ui-monospace,Menlo,Consolas,monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#f4f4f4;color:var(--ink);font-family:var(--sans);line-height:1.4}
+  .frame{max-width:1180px;margin:0 auto;background:#fff;box-shadow:0 0 0 1px var(--line)}
+  /* shared wireframe primitives */
+  .block{border:1.5px dashed var(--line);background:var(--fill);display:flex;align-items:center;justify-content:center;color:#888;font-family:var(--mono);font-size:12px;text-align:center}
+  .imgbox{position:relative;background:var(--fill2)}
+  .imgbox::after{content:"";position:absolute;inset:0;background:
+    linear-gradient(45deg,transparent 49%,var(--line) 49.5%,var(--line) 50.5%,transparent 51%),
+    linear-gradient(-45deg,transparent 49%,var(--line) 49.5%,var(--line) 50.5%,transparent 51%)}
+  .imgbox span{position:relative;z-index:1;background:#fff9;padding:2px 8px;border-radius:3px}
+  .lines{display:flex;flex-direction:column;gap:8px;width:100%}
+  .lines i{display:block;height:10px;background:var(--line);border-radius:6px;opacity:.55}
+  .btn{display:inline-block;border:1.5px solid var(--ink);border-radius:30px;padding:10px 26px;font-family:var(--mono);font-size:12px}
+  .tag{position:absolute;font-family:var(--mono);font-size:10px;color:#fff;background:var(--note);padding:2px 7px;border-radius:0 0 6px 0;top:0;left:0;letter-spacing:.04em}
+  .anno{font-family:var(--mono);font-size:11px;color:var(--note);padding:6px 16px;background:#f6f4ff;border-top:1px dashed #cdbcff}
+  section{position:relative;padding:28px 40px;border-bottom:1px solid #eee}
+  .h{font-size:13px;font-family:var(--mono);color:#999;letter-spacing:.1em;text-transform:uppercase;margin:0 0 14px}
+  /* NAV */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid #eee}
+  nav .logo{font-family:var(--mono);font-weight:700;letter-spacing:.3em}
+  nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:12px;color:#999}
+  /* HERO */
+  .hero{height:440px;padding:0}
+  .hero .block{height:100%;flex-direction:column;gap:18px;border:none;background:
+    repeating-linear-gradient(135deg,#e6e6e6 0 18px,#ededed 18px 36px)}
+  .hero h1{font-size:46px;margin:0;color:#444;letter-spacing:-.02em}
+  /* PRODUCT 3D */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+  .stage3d{height:320px}
+  /* SCIENCE */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card .imgbox{height:120px;margin-bottom:12px}
+  /* CTA / FOOTER */
+  .cta{text-align:center;padding:48px 40px}
+  footer{padding:26px 40px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:#aaa}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">AETHER</div>
+    <ul><li>Science</li><li>Products</li><li>Ritual</li><li>Journal</li><li>[ Shop ]</li></ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="tag">SLOT: HERO VIDEO LOOP (generate_video)</span>
+    <div class="block">
+      <h1>regenerate.</h1>
+      <div style="font-family:var(--mono);font-size:13px;color:#777;max-width:420px">
+        H1 + one-line value prop overlaid on a muted, looping cinematic hero clip
+      </div>
+      <span class="btn">Discover the ritual ↓</span>
+    </div>
+  </section>
+  <div class="anno">// Lenis smooth-scroll begins here · GSAP pins H1 + fades hero video on scroll-out · poster image shows before video loads</div>
+
+  <!-- PRODUCT / 3D -->
+  <section>
+    <span class="tag">SLOT: INTERACTIVE 3D (generate_3d → GLB → R3F)</span>
+    <p class="h">02 — The Product</p>
+    <div class="grid2">
+      <div class="block imgbox stage3d"><span>&lt;Canvas&gt; rotating 3D bottle · drag-to-orbit · scroll-scrubbed</span></div>
+      <div>
+        <div class="lines" style="max-width:320px">
+          <i style="width:70%"></i><i></i><i style="width:90%"></i><i style="width:60%"></i>
+        </div>
+        <div style="margin-top:20px"><span class="btn">Add to ritual — $—</span></div>
+      </div>
+    </div>
+  </section>
+  <div class="anno">// GLB must be Draco+KTX2 compressed (&lt;2MB) · LOD fallback to static image on mobile / reduced-motion</div>
+
+  <!-- SCIENCE / STILLS -->
+  <section>
+    <span class="tag">SLOT: HERO STILLS + TEXTURES (generate_image)</span>
+    <p class="h">03 — The Science</p>
+    <div class="grid3">
+      <div class="card"><div class="block imgbox"><span>macro texture</span></div><div class="lines"><i></i><i style="width:80%"></i></div></div>
+      <div class="card"><div class="block imgbox"><span>ingredient still</span></div><div class="lines"><i></i><i style="width:80%"></i></div></div>
+      <div class="card"><div class="block imgbox"><span>lab / process</span></div><div class="lines"><i></i><i style="width:80%"></i></div></div>
+    </div>
+  </section>
+  <div class="anno">// GSAP ScrollTrigger staggers the 3 cards in · images served as AVIF/WebP, lazy-loaded</div>
+
+  <!-- CTA -->
+  <section class="cta">
+    <span class="tag">SLOT: MOTION ACCENTS (Rive / Lottie)</span>
+    <div class="block" style="height:60px;border:none;background:none;font-size:30px;color:#444">Begin your regeneration.</div>
+    <div style="margin-top:18px"><span class="btn" style="border-width:2px">Shop AETHER</span></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer><span>AETHER © wireframe</span><span>IG · TT · YT</span></footer>
+
+</div>
+</body>
+</html>
