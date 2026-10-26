@@ -1,4 +1,9 @@
+import { withPayload } from "@payloadcms/next/withPayload";
 import type { NextConfig } from "next";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
   trailingSlash: true,
@@ -7,11 +12,30 @@ const nextConfig: NextConfig = {
     qualities: [75, 90, 95],
   },
   outputFileTracingExcludes: {
-    '*': [
-      './public/images/**',
-      './public/**/*.mp4',
-      './public/**/*.webm',
+    "*": ["./public/images/**", "./public/**/*.mp4", "./public/**/*.webm"],
+  },
+  outputFileTracingIncludes: {
+    "/admin/**/*": [
+      "./node_modules/@img/sharp-linux-x64/**/*",
+      "./node_modules/@img/sharp-libvips-linux-x64/**/*",
     ],
+  },
+  serverExternalPackages: [
+    "pg",
+    "@payloadcms/db-vercel-postgres",
+    "@neondatabase/serverless",
+    "@vercel/postgres",
+  ],
+  webpack: (webpackConfig) => {
+    webpackConfig.resolve.extensionAlias = {
+      ".cjs": [".cts", ".cjs"],
+      ".js": [".ts", ".tsx", ".js", ".jsx"],
+      ".mjs": [".mts", ".mjs"],
+    };
+    return webpackConfig;
+  },
+  turbopack: {
+    root: path.resolve(dirname),
   },
   async redirects() {
     return [
@@ -83,4 +107,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig, { devBundleServerPackages: false });

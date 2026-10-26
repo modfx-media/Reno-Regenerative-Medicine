@@ -1,4 +1,4 @@
-import { CLIENT_BLOGS_HIDDEN, POSTS } from '@/app/lib/posts'
+import { CLIENT_BLOGS_HIDDEN, POSTS } from '@/app/(site)/lib/posts'
 import { DEFAULT_CTA } from './config'
 import type { BlogPostData } from './types'
 

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { CLIENT_BLOGS_HIDDEN } from "./lib/posts";
+import { CLIENT_BLOGS_HIDDEN } from "./(site)/lib/posts";
 
 const SITE = "https://www.renoregen.com";
 

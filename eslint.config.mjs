@@ -12,7 +12,19 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "migrations/**",
+    "payload-types.ts",
   ]),
+  {
+    // Designed pages and existing UI already use these patterns.
+    // Keep the rules on for new CMS code outside these folders.
+    files: ["app/(site)/**/*.{ts,tsx}", "lib/ranked/**/*.ts"],
+    rules: {
+      "@next/next/no-html-link-for-pages": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "react/no-unescaped-entities": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;
