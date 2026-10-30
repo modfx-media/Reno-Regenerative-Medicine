@@ -5,8 +5,9 @@ import { getAllSlugs } from "./lib/pseo/combinations";
 import { getRankedOnlyBlogSlugs } from "@/lib/ranked/posts";
 import { listPublishedForSitemap } from "@/lib/cms/queries";
 import { withCMS } from "@/lib/cms/safe";
+import { publicSiteOrigin } from "@/lib/cms/site-origin";
 
-const SITE = "https://www.renoregen.com";
+const SITE = publicSiteOrigin();
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();

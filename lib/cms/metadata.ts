@@ -4,6 +4,7 @@ import { draftMode } from "next/headers";
 import { normalizePath } from "./paths";
 import { findDocumentForPath, type CmsDoc } from "./queries";
 import { withCMS } from "./safe";
+import { toLiveCanonical } from "./site-origin";
 
 function stringTitle(title: Metadata["title"]): string | undefined {
   if (typeof title === "string") return title;
@@ -20,7 +21,7 @@ function cmsMetadata(doc: CmsDoc, fallback: Metadata): Metadata {
     meta.description ||
     doc.excerpt ||
     (typeof fallback.description === "string" ? fallback.description : undefined);
-  const canonical = meta.canonicalUrl || undefined;
+  const canonical = toLiveCanonical(meta.canonicalUrl);
   const robots = {
     index: !meta.noIndex,
     follow: !meta.noFollow,

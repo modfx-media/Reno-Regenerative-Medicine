@@ -8,6 +8,9 @@ import JsonLd from "./components/JsonLd";
 import { buildMedicalBusinessSchema } from "./lib/jsonLd";
 import { getDisplayedGoogleReviews } from "@/lib/google-reviews";
 import { CMSRoute } from "@/lib/cms/route";
+import { publicSiteOrigin } from "@/lib/cms/site-origin";
+
+const SITE_ORIGIN = publicSiteOrigin();
 
 const sans = Inter({
   variable: "--font-sans-ui",
@@ -25,7 +28,7 @@ const serif = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.renoregen.com"),
+  metadataBase: new URL(SITE_ORIGIN),
   title: {
     default: "Integrative Medicine Clinic in Reno, NV | Reno Regenerative Medicine",
     template: "%s | Reno Regenerative Medicine",
@@ -48,7 +51,7 @@ export const metadata: Metadata = {
     siteName: "Reno Regenerative Medicine",
     locale: "en_US",
     type: "website",
-    url: "https://www.renoregen.com/",
+    url: `${SITE_ORIGIN}/`,
   },
   twitter: {
     card: "summary_large_image",

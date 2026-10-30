@@ -5,6 +5,7 @@ import { config as loadEnv } from "dotenv";
 import { getPayload, type Payload } from "payload";
 
 import configPromise from "../payload.config";
+import { toLiveCanonical } from "../lib/cms/site-origin";
 
 // npm sometimes forwards a standalone "--" separator.
 process.argv = process.argv.filter((arg) => arg !== "--");
@@ -53,6 +54,7 @@ type ExportFile = {
 
 type Report = {
   ranAt: string;
+  apply: boolean;
   created: number;
   updated: number;
   errors: { legacyId?: string; message: string }[];
@@ -60,8 +62,22 @@ type Report = {
   published: number;
 };
 
+function redact(value: string): string {
+  return value
+    .replace(/postgres(?:ql)?:\/\/[^\s'")]+/gi, "postgresql://[redacted]")
+    .replace(/\b(PAYLOAD_SECRET|DATABASE_URL|PREVIEW_SECRET|BLOB_READ_WRITE_TOKEN|CRON_SECRET|RANKED_WEBHOOK_SECRET|RANKED_API_KEY|OPENAI_API_KEY|GOOGLE_PLACES_API_KEY|GOOGLE_API_KEY)=?[^\s'")]+/gi, "$1=[redacted]");
+}
+
+function errorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    const cause = error.cause ? ` ${errorMessage(error.cause)}` : "";
+    return redact(`${error.name}: ${error.message}${cause}`);
+  }
+  return redact(String(error));
+}
+
 function isTransient(error: unknown): boolean {
-  const message = error instanceof Error ? `${error.name} ${error.message}` : String(error);
+  const message = errorMessage(error);
   const code =
     typeof error === "object" && error && "code" in error ? String((error as { code?: unknown }).code) : "";
   return /ECONNRESET|ETIMEDOUT|EAI_AGAIN|ECONNREFUSED|57P01|40001|53300|08006|08001|timeout|Connection terminated|connection error|too many clients/i.test(
@@ -137,6 +153,12 @@ async function ensureAuthor(payload: Payload): Promise<number | string> {
   return created.id;
 }
 
+function withoutStatus<T extends Record<string, unknown>>(data: T): Omit<T, "_status"> {
+  const copy = { ...data };
+  delete copy._status;
+  return copy;
+}
+
 function docData(record: ExportRecord, extras: Record<string, unknown>) {
   return {
     title: record.title,
@@ -150,7 +172,7 @@ function docData(record: ExportRecord, extras: Record<string, unknown>) {
     meta: {
       title: record.seoTitle,
       description: record.description,
-      canonicalUrl: record.canonicalUrl,
+      canonicalUrl: toLiveCanonical(record.canonicalUrl) ?? record.canonicalUrl,
       noIndex: false,
       noFollow: false,
       excludeFromSitemap: false,
@@ -160,19 +182,34 @@ function docData(record: ExportRecord, extras: Record<string, unknown>) {
 }
 
 async function main() {
+  const apply = process.env.CMS_IMPORT_APPLY === "1";
   const exportPath = path.join(process.cwd(), "data/content-export.json");
   const exported = JSON.parse(fs.readFileSync(exportPath, "utf8")) as ExportFile;
   if (exported.version !== 1) throw new Error("unsupported export version");
 
-  const payload = await getPayload({ config: configPromise });
   const report: Report = {
     ranAt: new Date().toISOString(),
+    apply,
     created: 0,
     updated: 0,
     errors: [],
     drafts: 0,
     published: 0,
   };
+
+  if (!apply) {
+    report.drafts = exported.records.length;
+    const reportDir = path.join(process.cwd(), "migration-data");
+    fs.mkdirSync(reportDir, { recursive: true });
+    fs.writeFileSync(path.join(reportDir, "import-report.json"), `${JSON.stringify(report, null, 2)}\n`);
+    console.log(
+      `dry run: ${exported.records.length} pages/posts and 3 globals would be saved as drafts. Set CMS_IMPORT_APPLY=1 to write. Nothing was published.`,
+    );
+    console.log(JSON.stringify(report, null, 2));
+    return;
+  }
+
+  const payload = await getPayload({ config: configPromise });
   const categories = new Map<string, number | string>();
   const authorId = await withRetry(() => ensureAuthor(payload));
 
@@ -190,19 +227,20 @@ async function main() {
           if (record.category) extras.category = await ensureCategory(payload, record.category, categories);
         }
 
-        const data = docData(record, extras);
+        const data = withoutStatus(docData(record, extras));
 
         if (existing) {
-          await payload.update({
+          const updated = await payload.update({
             collection: record.collection,
             id: existing.id,
             draft: true,
             overrideAccess: true,
             data,
           });
+          if (updated._status === "published") throw new Error("refusing to publish an existing document");
           report.updated += 1;
         } else {
-          await payload.create({
+          const created = await payload.create({
             collection: record.collection,
             draft: true,
             overrideAccess: true,
@@ -211,29 +249,28 @@ async function main() {
               _status: "draft",
             },
           });
+          if (created._status === "published") throw new Error("refusing to publish a new document");
           report.created += 1;
         }
       });
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
+      const message = errorMessage(error);
       report.errors.push({ legacyId: record.legacyId, message });
       console.error(`import failed ${record.legacyId}: ${message}`);
     }
   }
 
-  await withRetry(() =>
-    payload.updateGlobal({ slug: "header", overrideAccess: true, data: exported.globals.header }),
-  );
-  await withRetry(() =>
-    payload.updateGlobal({ slug: "footer", overrideAccess: true, data: exported.globals.footer }),
-  );
-  await withRetry(() =>
-    payload.updateGlobal({
-      slug: "site-settings",
-      overrideAccess: true,
-      data: exported.globals["site-settings"],
-    }),
-  );
+  for (const slug of ["header", "footer", "site-settings"] as const) {
+    await withRetry(async () => {
+      const saved = await payload.updateGlobal({
+        slug,
+        overrideAccess: true,
+        draft: true,
+        data: withoutStatus(exported.globals[slug]),
+      });
+      if (saved._status === "published") throw new Error(`refusing to publish global ${slug}`);
+    });
+  }
 
   for (const collection of ["pages", "posts"] as const) {
     const drafts = await payload.count({
@@ -258,6 +295,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(error);
+  console.error(errorMessage(error));
   process.exit(1);
 });

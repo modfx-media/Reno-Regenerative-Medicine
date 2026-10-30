@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import config from "@payload-config";
 import { NotFoundPage, generatePageMetadata } from "@payloadcms/next/views";
 
+import { cmsIsConfigured } from "@/lib/cms/env";
+
 import { importMap } from "../importMap";
 
 export const dynamic = "force-dynamic";
@@ -16,10 +18,19 @@ type Args = {
   }>;
 };
 
-export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
-  generatePageMetadata({ config, params, searchParams });
+export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> => {
+  if (!cmsIsConfigured()) {
+    return Promise.resolve({
+      title: "CMS not configured",
+      robots: { index: false, follow: false },
+    });
+  }
+  return generatePageMetadata({ config, params, searchParams });
+};
 
-const NotFound = ({ params, searchParams }: Args) =>
-  NotFoundPage({ config, params, searchParams, importMap });
+const NotFound = ({ params, searchParams }: Args) => {
+  if (!cmsIsConfigured()) return null;
+  return NotFoundPage({ config, params, searchParams, importMap });
+};
 
 export default NotFound;

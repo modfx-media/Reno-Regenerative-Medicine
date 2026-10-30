@@ -17,6 +17,8 @@ import { Footer } from "./globals/Footer";
 import { Header } from "./globals/Header";
 import { SiteSettings } from "./globals/SiteSettings";
 import { previewFromPath } from "./lib/cms/paths";
+import { isIgnoredServerHost, publicSiteOrigin } from "./lib/cms/site-origin";
+import { migrations } from "./migrations/index";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -35,18 +37,18 @@ function isLocalDatabaseHost(connectionString: string | undefined): boolean {
 }
 
 function resolveServerURL(): string {
-  const configured = (process.env.NEXT_PUBLIC_SERVER_URL || process.env.NEXT_PUBLIC_SITE_URL || "").replace(
-    /\/$/,
-    "",
-  );
-  const onVercel = Boolean(process.env.VERCEL);
-  const local = !configured || /localhost|127\.0\.0\.1/.test(configured);
-  if (onVercel && local) {
-    const site = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
-    if (site && !/localhost|127\.0\.0\.1/.test(site)) return site;
-    return APEX;
+  const live = publicSiteOrigin();
+  // Production admin metadata uses the live domain, never *.vercel.app.
+  // Preview keeps its own host so the admin talks to that deployment.
+  if (process.env.VERCEL_ENV === "production") return live;
+  if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
   }
-  return configured || "http://localhost:3000";
+
+  const configured = (process.env.NEXT_PUBLIC_SERVER_URL || "").replace(/\/$/, "");
+  if (configured && !isIgnoredServerHost(configured)) return configured;
+  if (configured && !process.env.VERCEL) return configured;
+  return process.env.VERCEL ? live : "http://localhost:3000";
 }
 
 function allowedOrigins(): string[] {
@@ -102,6 +104,7 @@ export default buildConfig({
     // Migrations are the schema source. Never push on Vercel.
     push: false,
     migrationDir: path.resolve(dirname, "migrations"),
+    prodMigrations: migrations,
     forceUseVercelPostgres: !isLocalDatabaseHost(databaseUrl),
   }),
   sharp,
@@ -121,8 +124,7 @@ export default buildConfig({
         const raw = doc && typeof doc === "object" && "path" in doc ? doc.path : undefined;
         const preview = previewFromPath(typeof raw === "string" ? raw : null);
         if (!preview) return "";
-        const site = (process.env.NEXT_PUBLIC_SITE_URL || WWW).replace(/\/$/, "");
-        return `${site}${preview}`;
+        return `${publicSiteOrigin()}${preview}`;
       },
       fields: ({ defaultFields }) => [
         ...defaultFields,

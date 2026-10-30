@@ -1,9 +1,11 @@
 import type { GlobalConfig } from "payload";
 
 import { authenticated } from "../collections/access";
+import { globalDraftVersions } from "../collections/versions";
 
 export const Header: GlobalConfig = {
   slug: "header",
+  versions: globalDraftVersions,
   access: {
     read: () => true,
     update: authenticated,

@@ -2,11 +2,13 @@ import { getPayload, type Payload } from "payload";
 
 import configPromise from "@payload-config";
 
+import { cmsIsConfigured } from "./env";
+
 let payloadPromise: Promise<Payload> | null = null;
 let failedUntil = 0;
 
 function cmsConfigured(): boolean {
-  return Boolean(process.env.DATABASE_URL && process.env.PAYLOAD_SECRET);
+  return cmsIsConfigured();
 }
 
 async function getCachedPayload(): Promise<Payload> {

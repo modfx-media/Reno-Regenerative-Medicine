@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { publicSiteOrigin } from "@/lib/cms/site-origin";
 import { PAGES, type PageMeta } from "./pageMeta";
 
-const SITE_URL = "https://www.renoregen.com";
+const SITE_URL = publicSiteOrigin();
 const BRAND = "Reno Regenerative Medicine";
 
 export type GenerateMetadataInput = {

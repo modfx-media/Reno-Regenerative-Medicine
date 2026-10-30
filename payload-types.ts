@@ -701,6 +701,7 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -715,6 +716,7 @@ export interface Footer {
   address?: string | null;
   facebookUrl?: string | null;
   youtubeUrl?: string | null;
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -730,6 +732,7 @@ export interface SiteSetting {
   address?: string | null;
   defaultMetaDescription?: string | null;
   siteUrl?: string | null;
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -748,6 +751,7 @@ export interface HeaderSelect<T extends boolean = true> {
         href?: T;
         id?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -762,6 +766,7 @@ export interface FooterSelect<T extends boolean = true> {
   address?: T;
   facebookUrl?: T;
   youtubeUrl?: T;
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -777,6 +782,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   address?: T;
   defaultMetaDescription?: T;
   siteUrl?: T;
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -808,7 +814,7 @@ export interface TaskSchedulePublish {
           relationTo: 'posts';
           value: number | Post;
         } | null);
-    global?: string | null;
+    global?: ('header' | 'footer' | 'site-settings') | null;
     user?: (number | null) | User;
   };
   output?: unknown;
