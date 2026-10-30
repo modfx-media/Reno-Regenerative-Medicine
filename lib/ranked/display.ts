@@ -1,4 +1,4 @@
-import { getPost, type Post } from '@/app/lib/posts'
+import { getPost, type Post } from '@/app/(site)/lib/posts'
 import { isLocalBlogSlug, localBlogHref, rankedBlogHref } from './local-posts'
 import type { BlogPostData } from './types'
 

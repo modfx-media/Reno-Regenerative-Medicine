@@ -2,18 +2,41 @@
   "name": "reno-regenerative-medicine",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "cms:export": "tsx scripts/export-content.ts",
+    "cms:import": "tsx scripts/import-content.ts",
+    "cms:validate-export": "tsx scripts/validate-export.ts",
+    "generate:types": "payload generate:types",
+    "generate:importmap": "payload generate:importmap"
   },
   "dependencies": {
+    "@img/sharp-libvips-linux-x64": "1.1.0",
+    "@img/sharp-linux-x64": "0.34.2",
+    "@neondatabase/serverless": "^1.2.0",
+    "@payloadcms/db-vercel-postgres": "^3.80.0",
+    "@payloadcms/next": "^3.80.0",
+    "@payloadcms/plugin-seo": "^3.80.0",
+    "@payloadcms/richtext-lexical": "^3.80.0",
+    "@payloadcms/storage-vercel-blob": "^3.80.0",
+    "@payloadcms/ui": "^3.80.0",
     "@vercel/blob": "^2.8.0",
+    "@vercel/postgres": "^0.10.0",
+    "dotenv": "^18.0.9",
     "framer-motion": "^12.38.0",
+    "graphql": "^16.11.0",
     "next": "16.2.6",
+    "payload": "^3.80.0",
+    "pg": "^8.23.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "sharp": "0.34.2",
+    "tsx": "^4.23.15"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
