@@ -23,6 +23,8 @@ const SECTIONS: { id: string; label: string }[] = [
   { id: "other-uses", label: "Other Ways We Share" },
   { id: "responsibilities", label: "Our Responsibilities" },
   { id: "information-sharing", label: "Information Sharing & Disclosure" },
+  { id: "sms-terms", label: "Text Message Program" },
+  { id: "cookies", label: "Cookies & Tracking" },
   { id: "changes", label: "Changes to This Notice" },
 ];
 
@@ -411,6 +413,55 @@ export default function Page() {
                   </p>
                   <p className="mt-4 text-ink/80">
                     Opt-out instructions: Users can reply STOP at any time
+                  </p>
+                </section>
+
+                <section id="sms-terms" className="mt-14 scroll-mt-32">
+                  <h3 className="font-serif-display text-2xl text-ink">
+                    Text Message Program Terms & Conditions
+                  </h3>
+                  <p className="mt-3 text-ink/80">
+                    By opting into our SMS messaging services, you agree to receive text messages related to our services, including appointment reminders, customer support, and important updates.
+                  </p>
+                  <h4 className="mt-8 font-serif-display text-lg text-ink">
+                    Opt-In & Consent:
+                  </h4>
+                  <Bullets
+                    items={[
+                      "You will only receive messages if you have explicitly opted in",
+                      "We maintain timestamped records of all opt-in actions",
+                      "We comply with the Telephone Consumer Protection Act (TCPA) and all applicable laws",
+                    ]}
+                  />
+                  <h4 className="mt-8 font-serif-display text-lg text-ink">
+                    Opt-Out Instructions:
+                  </h4>
+                  <Bullets
+                    items={[
+                      'You can cancel SMS notifications at any time by replying "STOP"',
+                      "You will receive a final confirmation message, and no further messages will be sent unless you re-opt in",
+                      "All opt-out requests are processed immediately.",
+                    ]}
+                  />
+                </section>
+
+                <section id="cookies" className="mt-14 scroll-mt-32">
+                  <h3 className="font-serif-display text-2xl text-ink">
+                    Cookies & Tracking Technologies
+                  </h3>
+                  <p className="mt-3 text-ink/80">
+                    We use cookies and similar technologies to:
+                  </p>
+                  <Bullets
+                    items={[
+                      "Analyze site traffic and user behavior",
+                      "Remember your preferences",
+                      "Improve website functionality and user experience",
+                      "Measure the effectiveness of our services",
+                    ]}
+                  />
+                  <p className="mt-4 text-ink/80">
+                    You may control cookies through your browser settings. Disabling cookies may limit your ability to use certain features of our website.
                   </p>
                 </section>
 
