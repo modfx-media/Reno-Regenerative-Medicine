@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import BlogPostShell from "@/app/(site)/components/BlogPostShell";
 import { relatedIndexPosts, toIndexPost } from "@/lib/ranked/display";
 import { isLocalBlogSlug, localBlogHref } from "@/lib/ranked/local-posts";
 import { getLiveRankedBlogPost, getRankedOnlyBlogSlugs } from "@/lib/ranked/posts";
 import type { BlogPostData } from "@/lib/ranked/types";
+import { CmsOnlyPage } from "@/lib/cms/cms-only";
 import { withCmsMetadata } from "@/lib/cms/metadata";
 
 export const revalidate = 3600;
@@ -80,7 +81,7 @@ export default async function BlogPostPage({ params }: { params: Promise<RoutePa
   }
 
   const post = await getLiveRankedBlogPost(slug);
-  if (!post) notFound();
+  if (!post) return <CmsOnlyPage pathname={`/blog/${slug}/`} />;
 
   return (
     <BlogPostShell

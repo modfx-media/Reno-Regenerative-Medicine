@@ -1,42 +1,15 @@
-import { draftMode, headers } from "next/headers";
 import type { ReactNode } from "react";
 
-import { isHiddenBlogPath } from "@/app/(site)/lib/posts";
-
-import { findDocumentForPath } from "./queries";
-import { withCMS } from "./safe";
-
 /**
- * Published Payload document replaces the designed page.
- * Drafts, a down database, and hidden client blogs leave `children` untouched.
+ * Designed routes always render their own page.
+ *
+ * The previous overlay (`lib/cms/route.tsx`, the published-doc branch)
+ * replaced `children` with the generic CMS article as soon as
+ * `findDocumentForPath` returned a published document. Draft preview did
+ * the same. Publishing a doc that only edited SEO therefore dropped the
+ * designed sections. A published or previewed document may only contribute
+ * data through `withCmsMetadata` and the schema overlay.
  */
-export async function CMSRoute({ children }: { children: ReactNode }) {
-  const headerList = await headers();
-  const pathname = headerList.get("x-pathname") || "/";
-
-  if (
-    pathname.startsWith("/api") ||
-    pathname.startsWith("/admin") ||
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/next")
-  ) {
-    return children;
-  }
-
-  // Client blogs stay hidden even if a doc is accidentally published.
-  if (isHiddenBlogPath(pathname)) return children;
-
-  let draft = false;
-  try {
-    draft = (await draftMode()).isEnabled;
-  } catch {
-    draft = false;
-  }
-
-  const doc = await withCMS((payload) => findDocumentForPath(payload, pathname, { draft }), null);
-  if (!doc) return children;
-  if (!draft && doc._status !== "published") return children;
-
-  const { CmsDocumentView } = await import("./render");
-  return <CmsDocumentView doc={doc} />;
+export function CMSRoute({ children }: { children: ReactNode }) {
+  return children;
 }
