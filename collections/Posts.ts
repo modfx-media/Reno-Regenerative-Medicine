@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 
 import { authenticated, authenticatedOrPublished } from "./access";
-import { optionalUniqueText } from "./hooks";
+import { optionalUniqueText, revalidateDeleted, revalidatePublished } from "./hooks";
 import { draftVersions } from "./versions";
 
 export const Posts: CollectionConfig = {
@@ -17,6 +17,10 @@ export const Posts: CollectionConfig = {
     delete: authenticated,
   },
   versions: draftVersions,
+  hooks: {
+    afterChange: [revalidatePublished],
+    afterDelete: [revalidateDeleted],
+  },
   fields: [
     {
       name: "title",

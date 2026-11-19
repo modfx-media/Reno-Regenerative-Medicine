@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { headers } from "next/headers";
 import Script from "next/script";
 import { Suspense } from "react";
 import "./globals.css";
@@ -8,6 +9,7 @@ import JsonLd from "./components/JsonLd";
 import { buildMedicalBusinessSchema } from "./lib/jsonLd";
 import { getDisplayedGoogleReviews } from "@/lib/google-reviews";
 import { CMSRoute } from "@/lib/cms/route";
+import { cmsSchemaForRequest } from "@/lib/cms/schema-overlay";
 import { publicSiteOrigin } from "@/lib/cms/site-origin";
 
 const SITE_ORIGIN = publicSiteOrigin();
@@ -62,6 +64,10 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const reviewsPayload = await getDisplayedGoogleReviews();
+  // Same request read the old CMS overlay used. It keeps metadata and draft
+  // preview on the live request. The body below is always the designed page.
+  await headers();
+  const cmsSchema = await cmsSchemaForRequest();
 
   return (
     <html
@@ -97,6 +103,7 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <JsonLd schema={buildMedicalBusinessSchema(reviewsPayload)} />
+        {cmsSchema ? <JsonLd schema={cmsSchema} /> : null}
         <Suspense fallback={null}>
           <ScrollToTop />
         </Suspense>

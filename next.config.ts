@@ -15,7 +15,15 @@ const nextConfig: NextConfig = {
     "*": ["./public/images/**", "./public/**/*.mp4", "./public/**/*.webm"],
   },
   outputFileTracingIncludes: {
+    "/admin": [
+      "./node_modules/@img/sharp-linux-x64/**/*",
+      "./node_modules/@img/sharp-libvips-linux-x64/**/*",
+    ],
     "/admin/**/*": [
+      "./node_modules/@img/sharp-linux-x64/**/*",
+      "./node_modules/@img/sharp-libvips-linux-x64/**/*",
+    ],
+    "/api/**/*": [
       "./node_modules/@img/sharp-linux-x64/**/*",
       "./node_modules/@img/sharp-libvips-linux-x64/**/*",
     ],

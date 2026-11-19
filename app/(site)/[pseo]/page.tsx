@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 
 import PageHero from "@/app/(site)/components/PageHero";
 import Header from "@/app/(site)/components/Header";
@@ -10,15 +9,16 @@ import {
 } from "@/app/(site)/lib/pseo/combinations";
 
 import PseoBody from "./PseoBody";
+import { CmsOnlyPage, cmsOnlyMetadata } from "@/lib/cms/cms-only";
 import { withCmsMetadata } from "@/lib/cms/metadata";
 
 const SITE_URL = "https://www.renoregen.com";
 const BRAND = "Reno Regenerative Medicine";
 const DEFAULT_HERO = "/images/services/spinal-decompression.jpg";
 
-// Only pre-rendered combos resolve. Anything else 404s without invoking
-// generateMetadata / the page component.
-export const dynamicParams = false;
+// Combos are pre-rendered. Any other single-segment path can be a CMS-only
+// document; without real body content it still 404s.
+export const dynamicParams = true;
 
 type RouteParams = { pseo: string };
 
@@ -43,7 +43,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { pseo } = await params;
   const combo = getCombinationBySlug(pseo);
-  if (!combo) return {};
+  if (!combo) return cmsOnlyMetadata(`/${pseo}/`);
 
   const { service, location } = combo;
   const vars = {
@@ -95,7 +95,7 @@ export default async function PseoPage({
 }) {
   const { pseo } = await params;
   const combo = getCombinationBySlug(pseo);
-  if (!combo) return notFound();
+  if (!combo) return <CmsOnlyPage pathname={`/${pseo}/`} />;
 
   const { service, location } = combo;
   const vars = {

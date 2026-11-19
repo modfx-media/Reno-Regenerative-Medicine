@@ -38,7 +38,7 @@ export async function findDocumentForPath(
   for (const collection of COLLECTIONS) {
     const result = await payload.find({
       collection,
-      depth: 0,
+      depth: 1,
       draft: opts.draft,
       limit: 1,
       overrideAccess: opts.draft,
