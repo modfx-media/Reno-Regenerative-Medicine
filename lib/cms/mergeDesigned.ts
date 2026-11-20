@@ -10,8 +10,6 @@ import { publicSiteOrigin, toLiveCanonical } from "./site-origin";
  * actually set. It must not replace the page with the generic article.
  */
 
-const TITLE_SUFFIX = " | Reno Regenerative Medicine";
-
 export type RoutedBody = "designed" | "generic" | "none";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -162,30 +160,14 @@ function patchRobots(current: Metadata["robots"], noIndex: boolean, noFollow: bo
 }
 
 /**
- * Keep the layout title template. A string title still receives
- * `%s | Reno Regenerative Medicine`. An absolute title keeps the same suffix
- * the page already opted into, without a second copy.
+ * A published CMS meta title is the document title verbatim.
+ * `{ absolute }` skips the layout template `%s | Reno Regenerative Medicine`,
+ * so the brand is not appended and an editor-written suffix is not doubled.
+ * Open Graph and Twitter receive the same string.
  */
-function applyCmsTitle(
-  cmsTitle: string,
-  fallbackTitle: Metadata["title"],
-): { title: Metadata["title"]; text: string } {
-  const trimmed = cmsTitle.trim();
-  if (
-    fallbackTitle &&
-    typeof fallbackTitle === "object" &&
-    "absolute" in fallbackTitle &&
-    typeof fallbackTitle.absolute === "string"
-  ) {
-    const hadSuffix = fallbackTitle.absolute.endsWith(TITLE_SUFFIX);
-    const primary = trimmed.endsWith(TITLE_SUFFIX) ? trimmed.slice(0, -TITLE_SUFFIX.length).trim() : trimmed;
-    const text = hadSuffix ? `${primary}${TITLE_SUFFIX}` : trimmed;
-    return { title: { absolute: text }, text };
-  }
-  if (trimmed.endsWith(TITLE_SUFFIX)) {
-    return { title: { absolute: trimmed }, text: trimmed };
-  }
-  return { title: trimmed, text: trimmed };
+function applyCmsTitle(cmsTitle: string): { title: Metadata["title"]; text: string } {
+  const text = cmsTitle.trim();
+  return { title: { absolute: text }, text };
 }
 
 /**
@@ -218,7 +200,7 @@ export function mergeCmsMetadata(
     Boolean(value) && typeof value === "object";
 
   if (title) {
-    const applied = applyCmsTitle(title, fallback.title);
+    const applied = applyCmsTitle(title);
     next = { ...next, title: applied.title };
     if (hasOg(next.openGraph)) next = { ...next, openGraph: { ...next.openGraph, title: applied.text } };
     if (hasTwitter(next.twitter)) next = { ...next, twitter: { ...next.twitter, title: applied.text } };

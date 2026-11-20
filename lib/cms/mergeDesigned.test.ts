@@ -1,10 +1,39 @@
+import type { Metadata } from "next";
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+
+const require = createRequire(import.meta.url);
+const { resolveTitle } = require("next/dist/lib/metadata/resolvers/resolve-title.js") as {
+  resolveTitle: (
+    title: unknown,
+    template: string | null,
+  ) => { absolute?: string };
+};
+
+/** Same template the site layout applies to string titles in child routes. */
+function layoutTitleTemplate(): string {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+  const layout = readFileSync(path.join(root, "app/(site)/layout.tsx"), "utf8");
+  const match = layout.match(/template:\s*"([^"]+)"/);
+  assert.ok(match, "site layout is missing title.template");
+  return match[1];
+}
+
+/** Document title Next emits for a page title under the site layout template. */
+function renderedDocumentTitle(title: unknown): string {
+  return resolveTitle(title, layoutTitleTemplate()).absolute ?? "";
+}
+
+/** Open Graph and Twitter titles are not run through the document title template. */
+function renderedSocialTitle(title: unknown): string {
+  return resolveTitle(title, null).absolute ?? "";
+}
 
 import { pathToRevalidateOnDelete, pathsToRevalidate } from "../../collections/hooks";
 import {
@@ -79,6 +108,37 @@ const CONTACT = {
   },
 };
 
+const LOCATION = {
+  title: {
+    absolute: "Knee Pain Treatment Near Sparks, NV | Reno Regenerative Medicine",
+  },
+  description: "Non-surgical knee pain treatment for patients from Sparks, NV.",
+  alternates: { canonical: "https://www.renoregen.com/knee-pain-sparks-nv/" },
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: "Knee Pain Treatment Near Sparks, NV | Reno Regenerative Medicine",
+    description: "Non-surgical knee pain treatment for patients from Sparks, NV.",
+    url: "https://www.renoregen.com/knee-pain-sparks-nv/",
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Knee Pain Treatment Near Sparks, NV | Reno Regenerative Medicine",
+    description: "Non-surgical knee pain treatment for patients from Sparks, NV.",
+  },
+};
+
+const BLOG = {
+  title: "Knee Pain After Hiking",
+  description: "What to do when knees hurt after a Reno trail.",
+  alternates: { canonical: "https://www.renoregen.com/blog/knee-pain-after-hiking/" },
+  openGraph: {
+    title: "Knee Pain After Hiking",
+    description: "What to do when knees hurt after a Reno trail.",
+    url: "https://www.renoregen.com/blog/knee-pain-after-hiking/",
+    type: "article" as const,
+  },
+};
+
 const emptyLexical = {
   root: {
     type: "root",
@@ -120,6 +180,12 @@ function ogTitle(meta: ReturnType<typeof mergeCmsMetadata>): unknown {
   return og.title;
 }
 
+function twitterTitle(meta: ReturnType<typeof mergeCmsMetadata>): unknown {
+  const twitter = meta.twitter;
+  if (!twitter || typeof twitter !== "object") return undefined;
+  return twitter.title;
+}
+
 test("published doc with empty or thin content still renders the designed component", () => {
   const empty = pageDoc({ content: emptyLexical });
   const thin = pageDoc({ content: null, excerpt: "Only an excerpt." });
@@ -151,7 +217,27 @@ test("publishing a doc with empty meta leaves the hardcoded head unchanged", () 
   doc.excerpt = "Excerpt must not become the meta description.";
   assert.equal(mergeCmsMetadata(HOME, doc, "/"), HOME);
   assert.equal(mergeCmsMetadata(CONTACT, doc, "/contact/"), CONTACT);
+  assert.equal(mergeCmsMetadata(LOCATION, doc, "/knee-pain-sparks-nv/"), LOCATION);
+  assert.equal(mergeCmsMetadata(BLOG, doc, "/blog/knee-pain-after-hiking/"), BLOG);
   assert.equal(mergeCmsMetadata(CONTACT, null, "/contact/"), CONTACT);
+  assert.equal(mergeCmsMetadata(BLOG, undefined, "/blog/knee-pain-after-hiking/"), BLOG);
+  assert.equal(layoutTitleTemplate(), "%s | Reno Regenerative Medicine");
+  assert.equal(
+    renderedDocumentTitle(CONTACT.title),
+    "Contact Us | Pain Management Clinic in Reno, NV | Reno Regenerative Medicine",
+  );
+  assert.equal(
+    renderedDocumentTitle(BLOG.title),
+    "Knee Pain After Hiking | Reno Regenerative Medicine",
+  );
+  assert.equal(
+    renderedDocumentTitle(HOME.title),
+    "Integrative Medicine Clinic in Reno, NV | Reno Regenerative Medicine",
+  );
+  assert.equal(
+    renderedDocumentTitle(LOCATION.title),
+    "Knee Pain Treatment Near Sparks, NV | Reno Regenerative Medicine",
+  );
 });
 
 test("a meta description edit changes only the description tags", () => {
@@ -184,8 +270,10 @@ test("a meta description edit changes only the description tags", () => {
 
 test("title, canonical, image, and robots overlay only the fields that are set", () => {
   const titled = mergeCmsMetadata(CONTACT, pageDoc({ meta: { title: "New contact title" } }), "/contact/");
-  assert.equal(titled.title, "New contact title");
+  assert.deepEqual(titled.title, { absolute: "New contact title" });
+  assert.equal(renderedDocumentTitle(titled.title), "New contact title");
   assert.equal(ogTitle(titled), "New contact title");
+  assert.equal(twitterTitle(titled), "New contact title");
   assert.equal(titled.description, CONTACT.description);
 
   const absolute = mergeCmsMetadata(
@@ -193,10 +281,10 @@ test("title, canonical, image, and robots overlay only the fields that are set",
     pageDoc({ meta: { title: "Integrative clinic in Reno" } }),
     "/",
   );
-  assert.deepEqual(absolute.title, {
-    absolute: "Integrative clinic in Reno | Reno Regenerative Medicine",
-  });
-  assert.equal(ogTitle(absolute), "Integrative clinic in Reno | Reno Regenerative Medicine");
+  assert.deepEqual(absolute.title, { absolute: "Integrative clinic in Reno" });
+  assert.equal(renderedDocumentTitle(absolute.title), "Integrative clinic in Reno");
+  assert.equal(ogTitle(absolute), "Integrative clinic in Reno");
+  assert.equal(twitterTitle(absolute), "Integrative clinic in Reno");
 
   const suffixed = mergeCmsMetadata(
     CONTACT,
@@ -204,6 +292,10 @@ test("title, canonical, image, and robots overlay only the fields that are set",
     "/contact/",
   );
   assert.deepEqual(suffixed.title, { absolute: "Already suffixed | Reno Regenerative Medicine" });
+  assert.equal(
+    renderedDocumentTitle(suffixed.title),
+    "Already suffixed | Reno Regenerative Medicine",
+  );
 
   const canonical = mergeCmsMetadata(
     CONTACT,
@@ -247,6 +339,83 @@ test("title, canonical, image, and robots overlay only the fields that are set",
   ]);
   assert.equal(image.title, CONTACT.title);
   assert.equal(image.description, CONTACT.description);
+});
+
+test("a published CMS title and description render verbatim on every routed page type", () => {
+  const cmsTitle = "Our Story | Drug-Free Pain Relief in Reno";
+  const cmsDescription = `Published meta description ${"detail ".repeat(40)}`.trim();
+  assert.ok(cmsTitle.length > 40);
+  assert.ok(cmsDescription.length > 160);
+  assert.equal(cmsDescription.endsWith("detail"), true);
+
+  const cases: { name: string; fallback: Metadata; path: string }[] = [
+    { name: "home", fallback: HOME, path: "/" },
+    { name: "page", fallback: CONTACT, path: "/contact/" },
+    { name: "location", fallback: LOCATION, path: "/knee-pain-sparks-nv/" },
+    { name: "blog", fallback: BLOG, path: "/blog/knee-pain-after-hiking/" },
+  ];
+
+  for (const item of cases) {
+    const titled = mergeCmsMetadata(
+      item.fallback,
+      pageDoc({ meta: { title: `  ${cmsTitle}  ` } }),
+      item.path,
+    );
+    assert.deepEqual(titled.title, { absolute: cmsTitle }, item.name);
+    assert.equal(renderedDocumentTitle(titled.title), cmsTitle, item.name);
+    assert.equal(ogTitle(titled), cmsTitle, item.name);
+    assert.equal(renderedSocialTitle(ogTitle(titled)), cmsTitle, item.name);
+    assert.equal(titled.description, item.fallback.description, item.name);
+    const fallbackOg = item.fallback.openGraph;
+    assert.ok(fallbackOg && !Array.isArray(fallbackOg), item.name);
+    assert.equal(
+      ogDescription(titled),
+      fallbackOg && !Array.isArray(fallbackOg) ? fallbackOg.description : undefined,
+      item.name,
+    );
+    if (item.fallback.twitter) {
+      assert.equal(twitterTitle(titled), cmsTitle, item.name);
+    } else {
+      assert.equal(titled.twitter, undefined, item.name);
+    }
+    assert.deepEqual(titled.alternates, item.fallback.alternates, item.name);
+    assert.deepEqual(titled.robots, item.fallback.robots, item.name);
+
+    const described = mergeCmsMetadata(
+      item.fallback,
+      pageDoc({ meta: { description: `  ${cmsDescription}  ` } }),
+      item.path,
+    );
+    assert.equal(described.title, item.fallback.title, item.name);
+    assert.equal(renderedDocumentTitle(described.title), renderedDocumentTitle(item.fallback.title), item.name);
+    assert.equal(described.description, cmsDescription, item.name);
+    assert.equal(ogDescription(described), cmsDescription, item.name);
+    if (item.fallback.twitter) {
+      const twitter = described.twitter;
+      assert.ok(twitter && typeof twitter === "object");
+      if (twitter && typeof twitter === "object") {
+        assert.equal(twitter.description, cmsDescription, item.name);
+        assert.equal(twitter.title, item.fallback.twitter.title, item.name);
+      }
+    }
+
+    const both = mergeCmsMetadata(
+      item.fallback,
+      pageDoc({ meta: { title: cmsTitle, description: cmsDescription } }),
+      item.path,
+    );
+    assert.equal(renderedDocumentTitle(both.title), cmsTitle, item.name);
+    assert.equal(both.description, cmsDescription, item.name);
+    assert.equal(ogTitle(both), cmsTitle, item.name);
+    assert.equal(ogDescription(both), cmsDescription, item.name);
+  }
+
+  const longTitle = `${"Regenerative ".repeat(12)}care in Reno`;
+  const longOnly = mergeCmsMetadata(LOCATION, pageDoc({ meta: { title: longTitle } }), "/knee-pain-sparks-nv/");
+  assert.equal(renderedDocumentTitle(longOnly.title), longTitle);
+  assert.equal(longOnly.title && typeof longOnly.title === "object" && "absolute" in longOnly.title
+    ? longOnly.title.absolute
+    : "", longTitle);
 });
 
 test("JSON-LD is emitted only for schema fields that are set", () => {
