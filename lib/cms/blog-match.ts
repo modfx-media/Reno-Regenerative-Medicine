@@ -91,15 +91,70 @@ function categoryOf(doc: BlogPostRecord): string | undefined {
   return slug ? slugFromLookup(slug) : undefined;
 }
 
-function imageOf(doc: BlogPostRecord): string | undefined {
-  const path = doc.heroImagePath?.trim();
-  if (path && !path.startsWith("/api/")) return path;
-  const hero = doc.heroImage;
-  if (hero && typeof hero === "object") {
-    const url = hero.url?.trim();
-    if (url && !url.startsWith("/api/")) return url;
+const MEDIA_FILE_PREFIX = "/api/media/file/";
+const LIVE_MEDIA_HOSTS = new Set(["renoregen.com", "www.renoregen.com"]);
+
+function mediaFilePath(pathname: string, search = ""): string | undefined {
+  if (!pathname.startsWith(MEDIA_FILE_PREFIX)) return undefined;
+  return `${pathname}${search}`;
+}
+
+function isBlobHost(hostname: string): boolean {
+  const host = hostname.toLowerCase();
+  return host === "blob.vercel-storage.com" || host.endsWith(".blob.vercel-storage.com");
+}
+
+function sameOriginMediaHost(hostname: string): boolean {
+  const host = hostname.toLowerCase();
+  if (LIVE_MEDIA_HOSTS.has(host)) return true;
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!configured) return false;
+  try {
+    return new URL(configured).hostname.toLowerCase() === host;
+  } catch {
+    return false;
   }
-  return undefined;
+}
+
+/**
+ * Payload covers live at `/api/media/file/...`. Relative paths stay.
+ * Same-origin absolute URLs become that relative path. Blob URLs stay absolute.
+ * Anything else is missing or foreign and falls through to the default cover.
+ */
+function coverFrom(value: string | null | undefined): string | undefined {
+  const trimmed = value?.trim();
+  if (!trimmed) return undefined;
+
+  if (trimmed.startsWith("//")) return absoluteCover(`https:${trimmed}`);
+  if (/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) return absoluteCover(trimmed);
+
+  const hashless = trimmed.split("#")[0] ?? trimmed;
+  const pathname = hashless.split("?")[0] ?? hashless;
+  const search = hashless.includes("?") ? `?${hashless.slice(hashless.indexOf("?") + 1)}` : "";
+  const media = mediaFilePath(pathname, search);
+  if (media) return media;
+  if (trimmed.startsWith("/api/")) return undefined;
+  return trimmed;
+}
+
+function absoluteCover(href: string): string | undefined {
+  let url: URL;
+  try {
+    url = new URL(href);
+  } catch {
+    return undefined;
+  }
+  if (isBlobHost(url.hostname)) return href;
+  if (!sameOriginMediaHost(url.hostname)) return undefined;
+  return mediaFilePath(url.pathname, url.search) ?? (url.pathname.startsWith("/api/") ? undefined : href);
+}
+
+function imageOf(doc: BlogPostRecord): string | undefined {
+  const fromPath = coverFrom(doc.heroImagePath);
+  if (fromPath) return fromPath;
+  const hero = doc.heroImage;
+  if (!hero || typeof hero !== "object") return undefined;
+  return coverFrom(hero.url);
 }
 
 function formatCmsDate(value: string | null | undefined): string {
