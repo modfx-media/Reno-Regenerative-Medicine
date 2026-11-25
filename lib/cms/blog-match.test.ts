@@ -129,6 +129,86 @@ test("detail metadata uses SEO fields and the live trailing-slash canonical", ()
   assert.equal(conventionCanonical(undefined, "/blog/published-knee-care"), "https://www.renoregen.com/blog/published-knee-care/");
 });
 
+const DEFAULT_COVER = "/images/blog/default-cover.jpg";
+
+function coverDoc(image: Partial<BlogPostRecord>): BlogPostRecord {
+  return {
+    title: "Cover Test",
+    slug: "payload-cover-only",
+    excerpt: "Cover excerpt",
+    publishedOn: "2026-11-01T00:00:00.000Z",
+    ...image,
+  };
+}
+
+test("payload media covers stay relative, including same-origin absolute URLs", () => {
+  assert.equal(
+    postFromCms(coverDoc({ heroImagePath: "/api/media/file/knee.jpg" }))?.image,
+    "/api/media/file/knee.jpg",
+  );
+  assert.equal(
+    postFromCms(coverDoc({ heroImagePath: "/api/media/file/knee.jpg?w=1200" }))?.image,
+    "/api/media/file/knee.jpg?w=1200",
+  );
+  assert.equal(
+    postFromCms(coverDoc({ heroImage: { url: "https://www.renoregen.com/api/media/file/knee.jpg" } }))?.image,
+    "/api/media/file/knee.jpg",
+  );
+  assert.equal(
+    postFromCms(coverDoc({ heroImagePath: "https://renoregen.com/api/media/file/knee%20shot.jpg?x=1" }))?.image,
+    "/api/media/file/knee%20shot.jpg?x=1",
+  );
+  assert.equal(
+    postFromCms(coverDoc({ heroImagePath: "http://WWW.renoregen.com/api/media/file/knee.jpg" }))?.image,
+    "/api/media/file/knee.jpg",
+  );
+
+  const previous = process.env.NEXT_PUBLIC_SITE_URL;
+  process.env.NEXT_PUBLIC_SITE_URL = "https://media.renoregen.test";
+  try {
+    assert.equal(
+      postFromCms(coverDoc({ heroImagePath: "https://media.renoregen.test/api/media/file/knee.jpg" }))?.image,
+      "/api/media/file/knee.jpg",
+    );
+  } finally {
+    if (previous === undefined) delete process.env.NEXT_PUBLIC_SITE_URL;
+    else process.env.NEXT_PUBLIC_SITE_URL = previous;
+  }
+
+  assert.equal(
+    postFromCms(
+      coverDoc({
+        heroImagePath: "https://cdn.example/foreign.jpg",
+        heroImage: { url: "https://www.renoregen.com/api/media/file/from-upload.jpg" },
+      }),
+    )?.image,
+    "/api/media/file/from-upload.jpg",
+  );
+});
+
+test("blob covers stay absolute and missing or foreign covers use the default", () => {
+  const blob = "https://store.public.blob.vercel-storage.com/covers/knee.jpg";
+  assert.equal(postFromCms(coverDoc({ heroImagePath: blob }))?.image, blob);
+  assert.equal(
+    postFromCms(coverDoc({ heroImage: { url: "https://store.blob.vercel-storage.com/covers/knee.jpg?download=1" } }))?.image,
+    "https://store.blob.vercel-storage.com/covers/knee.jpg?download=1",
+  );
+  assert.equal(postFromCms(coverDoc({}))?.image, DEFAULT_COVER);
+  assert.equal(
+    postFromCms(coverDoc({ heroImagePath: "https://evil.example/api/media/file/knee.jpg" }))?.image,
+    DEFAULT_COVER,
+  );
+  assert.equal(postFromCms(coverDoc({ heroImagePath: "/api/users" }))?.image, DEFAULT_COVER);
+  assert.equal(
+    postFromCms(coverDoc({ heroImagePath: "https://www.renoregen.com/api/media/not-a-file.jpg" }))?.image,
+    DEFAULT_COVER,
+  );
+  assert.equal(
+    postFromCms(coverDoc({ heroImagePath: "/blogs-images/local-cover.jpg" }))?.image,
+    "/blogs-images/local-cover.jpg",
+  );
+});
+
 test("production migrations are limited to VERCEL_ENV=production", () => {
   const source = readFileSync(new URL("../../payload.config.ts", import.meta.url), "utf8");
   assert.match(source, /prodMigrations:\s*process\.env\.VERCEL_ENV === "production" \? migrations : undefined/);
