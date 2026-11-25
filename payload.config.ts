@@ -102,9 +102,11 @@ export default buildConfig({
       max: 8,
     },
     // Migrations are the schema source. Never push on Vercel.
+    // Preview builds also run with NODE_ENV=production and would migrate the
+    // shared database. Only the production deployment may migrate.
     push: false,
     migrationDir: path.resolve(dirname, "migrations"),
-    prodMigrations: migrations,
+    prodMigrations: process.env.VERCEL_ENV === "production" ? migrations : undefined,
     forceUseVercelPostgres: !isLocalDatabaseHost(databaseUrl),
   }),
   sharp,

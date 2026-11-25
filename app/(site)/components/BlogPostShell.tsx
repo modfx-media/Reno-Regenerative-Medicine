@@ -232,23 +232,32 @@ function ShareRail({ post }: { post: Post }) {
 
   const onCopy = useCallback(async () => {
     const url = getUrl();
+    const copiedWithCommand = () => {
+      const ta = document.createElement("textarea");
+      ta.value = url;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    };
     try {
-      if (navigator.clipboard?.writeText) {
+      if (typeof navigator !== "undefined" && typeof navigator.clipboard?.writeText === "function") {
         await navigator.clipboard.writeText(url);
       } else {
-        const ta = document.createElement("textarea");
-        ta.value = url;
-        ta.style.position = "fixed";
-        ta.style.opacity = "0";
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
+        copiedWithCommand();
       }
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
-      /* swallow */
+      try {
+        copiedWithCommand();
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1800);
+      } catch {
+        // Safari can expose clipboard.writeText and then reject it.
+      }
     }
   }, [getUrl]);
 
