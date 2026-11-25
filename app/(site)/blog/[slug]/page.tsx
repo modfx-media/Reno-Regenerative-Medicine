@@ -1,23 +1,18 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
-import type { ReactNode } from "react";
+import { notFound, redirect } from "next/navigation";
+import { RichText } from "@payloadcms/richtext-lexical/react";
+import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import BlogPostShell from "@/app/(site)/components/BlogPostShell";
-import { relatedIndexPosts, toIndexPost } from "@/lib/ranked/display";
-import { isLocalBlogSlug, localBlogHref } from "@/lib/ranked/local-posts";
-import { getLiveRankedBlogPost, getRankedOnlyBlogSlugs } from "@/lib/ranked/posts";
-import type { BlogPostData } from "@/lib/ranked/types";
+import { getRelatedPosts } from "@/app/(site)/lib/posts";
+import { loadBlogPost, metadataForBlogPost } from "@/lib/cms/blog-posts";
+import { slugFromLookup } from "@/lib/cms/blog-match";
 import { CmsOnlyPage } from "@/lib/cms/cms-only";
 import { withCmsMetadata } from "@/lib/cms/metadata";
+import { localBlogHref } from "@/lib/ranked/local-posts";
 
-export const revalidate = 3600;
-export const dynamicParams = true;
+export const revalidate = 300;
 
 type RouteParams = { slug: string };
-
-export async function generateStaticParams() {
-  const slugs = await getRankedOnlyBlogSlugs().catch(() => []);
-  return slugs.map((slug) => ({ slug }));
-}
 
 export async function generateMetadata({
   params,
@@ -25,71 +20,39 @@ export async function generateMetadata({
   params: Promise<RouteParams>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  if (isLocalBlogSlug(slug)) {
-    return withCmsMetadata(`/blog/${slug}/`, {});
+  const metadata = await metadataForBlogPost(slug);
+  if (metadata) return metadata;
+  const clean = slugFromLookup(slug);
+  return withCmsMetadata(`/blog/${clean}/`, {});
+}
+
+function ArticleBody({ content, excerpt }: { content: unknown; excerpt: string }) {
+  if (content && typeof content === "object" && "root" in content) {
+    return <RichText data={content as SerializedEditorState} disableContainer />;
   }
-  const post = await getLiveRankedBlogPost(slug);
-  if (!post) return withCmsMetadata(`/blog/${slug}/`, {});
-  const canonical = `https://www.renoregen.com/blog/${post.slug}/`;
-  return withCmsMetadata(`/blog/${post.slug}/`, {
-    title: post.title,
-    description: post.metaDescription,
-    alternates: { canonical },
-    openGraph: {
-      title: post.title,
-      description: post.metaDescription,
-      url: canonical,
-      type: "article",
-      publishedTime: `${post.publishDate}T12:00:00-04:00`,
-      images: [post.coverImage],
-    },
-  });
-}
-
-function renderInline(text: string): ReactNode {
-  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g);
-  return parts.map((part, index) => {
-    const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
-    if (!match) return <span key={index}>{part}</span>;
-    return (
-      <a key={index} href={match[2]} rel="noopener noreferrer">
-        {match[1]}
-      </a>
-    );
-  });
-}
-
-function RankedArticleBody({ post }: { post: BlogPostData }) {
-  return (
-    <>
-      {post.sections.map((section, index) => (
-        <section key={`${section.heading}-${index}`}>
-          {section.heading ? <h2>{section.heading}</h2> : null}
-          {section.body.map((paragraph, paragraphIndex) => (
-            <p key={paragraphIndex}>{renderInline(paragraph)}</p>
-          ))}
-        </section>
-      ))}
-    </>
-  );
+  if (excerpt) return <p>{excerpt}</p>;
+  return null;
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<RouteParams> }) {
   const { slug } = await params;
-  if (isLocalBlogSlug(slug)) {
-    redirect(localBlogHref(slug));
+  const loaded = await loadBlogPost(slug);
+  if (loaded === "hardcoded") {
+    redirect(localBlogHref(slugFromLookup(slug)));
   }
-
-  const post = await getLiveRankedBlogPost(slug);
-  if (!post) return <CmsOnlyPage pathname={`/blog/${slug}/`} />;
+  if (!loaded) {
+    const clean = slugFromLookup(slug);
+    if (!clean) notFound();
+    return <CmsOnlyPage pathname={`/blog/${clean}/`} />;
+  }
 
   return (
     <BlogPostShell
-      post={toIndexPost(post)}
-      summary={post.intro}
-      relatedPosts={relatedIndexPosts(post)}
+      post={loaded.post}
+      summary={loaded.post.excerpt || undefined}
+      relatedPosts={getRelatedPosts(loaded.post.slug)}
     >
-      <RankedArticleBody post={post} />
+      <ArticleBody content={loaded.doc.content} excerpt={loaded.post.excerpt} />
     </BlogPostShell>
   );
 }

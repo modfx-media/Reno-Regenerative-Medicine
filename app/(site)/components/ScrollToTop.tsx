@@ -10,15 +10,26 @@ export default function ScrollToTop() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.location.hash) return;
-    const prev = window.history.scrollRestoration;
+    let previous: ScrollRestoration | undefined;
     try {
+      previous = window.history.scrollRestoration;
       window.history.scrollRestoration = "manual";
-    } catch {}
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+    } catch {
+      previous = undefined;
+    }
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    } catch {
+      // Safari rejects the `instant` ScrollBehavior value.
+      window.scrollTo(0, 0);
+    }
     return () => {
+      if (previous == null) return;
       try {
-        window.history.scrollRestoration = prev;
-      } catch {}
+        window.history.scrollRestoration = previous;
+      } catch {
+        // Older WebKit builds omit history.scrollRestoration.
+      }
     };
   }, [pathname, searchParams]);
 

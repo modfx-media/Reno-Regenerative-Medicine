@@ -5,12 +5,11 @@ import PageHero from "../components/PageHero";
 import CTASection from "../components/CTASection";
 import BlogIndexBody from "./BlogIndexBody";
 import { notFound } from "next/navigation";
-import { getPublishedBlogPosts } from "@/lib/ranked/posts";
-import { toIndexPost } from "@/lib/ranked/display";
 import { CLIENT_BLOGS_HIDDEN } from "@/app/(site)/lib/posts";
+import { loadMergedBlogPosts } from "@/lib/cms/blog-posts";
 import { withCmsMetadata } from "@/lib/cms/metadata";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return withCmsMetadata('/blog/', {
@@ -29,11 +28,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const published = await getPublishedBlogPosts();
-  if (CLIENT_BLOGS_HIDDEN && published.length === 0) notFound();
-  const posts = [...published]
-    .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
-    .map(toIndexPost);
+  const posts = await loadMergedBlogPosts();
+  if (CLIENT_BLOGS_HIDDEN && posts.length === 0) notFound();
 
   return (
     <>

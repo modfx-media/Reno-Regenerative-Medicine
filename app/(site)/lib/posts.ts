@@ -18,7 +18,7 @@ export type Post = {
  * Client blog articles stay in the repo (routes + copy) but are unpublished.
  * Flip to `false` to show them again in nav, listings, sitemaps, and public URLs.
  */
-export const CLIENT_BLOGS_HIDDEN = true;
+export const CLIENT_BLOGS_HIDDEN = false;
 
 export function getVisiblePosts(): readonly Post[] {
   return CLIENT_BLOGS_HIDDEN ? [] : POSTS;
